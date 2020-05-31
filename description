@@ -1,0 +1,37 @@
+OBJECTIVES OF THE PROJECT:
+	The objective of this project is to provide the user ,a user-friendly atmosphere where he can upload as well as get details of corona affected patients in various stages in different districts of various states.
+	This project provides a visual comparison by means of  bar graph between different districts in a state and between different states in a country
+	This project provides the status of ventilators availability in different states and gives an alarm if there is any scarcity in a particular state
+
+The project has been developed in C language.
+
+The following functions are used to develop this project.
+
+For testing the project we have taken data of corona patients in three states with three districts each
+
+The states under consideration are:
+    1.	Tamilnadu
+        	Madurai
+        	Nagapattinam
+        	Coimbatore
+    2.	Kerala
+        	Ernakulam
+        	Alappuzha
+        	Kollam
+    3.	Karnataka
+        	Kolar
+        	Bagalkot
+        	belagari
+
+
+FUNCTION DESCRIPTION :
+
+
+S.NO	FUNCTION NAME	        FUNCTION DESCRIPTION
+1	    STATE_BAR_CHART()	    This function draws a stacked bar graph between different states
+2   	DISTRICT_BAR_GRAPH()	This function draws a stacked bar graph between different districts in a state chosen
+3   	READDATA()	            This function allows user to update records in a district in state
+4	    VENTILATOR_STATUS()	    This function provides the user with the status of ventilators availability in different states
+5	    INFORMATION()	        This function provides the user with the details of corona infected patients in different levels in different districts of various states
+6	    ASSIGN()	            This function uploads the last recorded data in each state and district
+		
