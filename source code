@@ -1,0 +1,1107 @@
+#include<stdio.h>
+#include<conio.h>
+#include<graphics.h>
+/*FUNCTION DECLARATIONS*/
+void READDATA (void);
+void INFORMATION(void);
+void VENTILATOR_STATUS(void);
+/*void STATE_BAR_CHART(void);
+void DISTRICT_BAR_CHART(void);*/
+void ASSIGN(void);
+FILE * fp;
+void ASSIGN(void)
+{
+   int lvl1=50,lvl2=20,lvl3=10,cured=20,death=5,vent=20;
+fp=fopen("madurai.txt","w+");
+   if(fp==NULL)
+   {
+printf("\n REQUEST FOR OPENING FILE MADURAI IS DECLINED");
+   }
+   else
+   {
+fprintf(fp,"%d",lvl1);
+fprintf(fp,"\n");
+fprintf(fp,"%d",lvl2);
+fprintf(fp,"\n");
+fprintf(fp,"%d",lvl3);
+fprintf(fp,"\n");
+fprintf(fp,"%d",cured);
+fprintf(fp,"\n");
+fprintf(fp,"%d",death);
+fprintf(fp,"\n");
+fprintf(fp,"%d",vent);
+fclose(fp);
+   }
+fp=fopen("nagapattinam.txt","w+");
+   if(fp==NULL)
+printf("\n REQUEST FOR OPENING FILE NAGAPATTINAM IS DECLINED");
+   else
+   {
+fprintf(fp,"%d",lvl1);
+fprintf(fp,"\n");
+fprintf(fp,"%d",lvl2);
+fprintf(fp,"\n");
+fprintf(fp,"%d",lvl3);
+fprintf(fp,"\n");
+fprintf(fp,"%d",cured);
+fprintf(fp,"\n");
+fprintf(fp,"%d",death);
+fprintf(fp,"\n");
+fprintf(fp,"%d",vent);
+fclose(fp);
+   }
+fp=fopen("coimbatore.txt","w+");
+   if(fp==NULL)
+printf("\n REQUEST FOR OPENING FILE COIMBATORE IS DECLINED");
+   else
+   {
+fprintf(fp,"%d",lvl1);
+fprintf(fp,"\n");
+fprintf(fp,"%d",lvl2);
+fprintf(fp,"\n");
+fprintf(fp,"%d",lvl3);
+fprintf(fp,"\n");
+fprintf(fp,"%d",cured);
+fprintf(fp,"\n");
+fprintf(fp,"%d",death);
+fprintf(fp,"\n");
+fprintf(fp,"%d",vent);
+fclose(fp);
+   }
+fp=fopen("ernakulam.txt","w+");
+   if(fp==NULL)
+printf("\n REQUEST FOR OPENING FILE ERNAKULAM IS DECLINED");
+   else
+   {
+fprintf(fp,"%d",lvl1);
+fprintf(fp,"\n");
+fprintf(fp,"%d",lvl2);
+fprintf(fp,"\n");
+fprintf(fp,"%d",lvl3);
+fprintf(fp,"\n");
+fprintf(fp,"%d",cured);
+fprintf(fp,"\n");
+fprintf(fp,"%d",death);
+fprintf(fp,"\n");
+fprintf(fp,"%d",vent);
+fclose(fp);
+   }
+fp=fopen("alappuzha.txt","w+");
+   if(fp==NULL)
+printf("\n REQUEST FOR OPENING FILE ALAPPUZHA IS DECLINED");
+   else
+   {
+fprintf(fp,"%d",lvl1);
+fprintf(fp,"\n");
+fprintf(fp,"%d",lvl2);
+fprintf(fp,"\n");
+fprintf(fp,"%d",lvl3);
+fprintf(fp,"\n");
+fprintf(fp,"%d",cured);
+fprintf(fp,"\n");
+fprintf(fp,"%d",death);
+fprintf(fp,"\n");
+fprintf(fp,"%d",vent);
+fclose(fp);
+   }
+fp=fopen("kollam.txt","w+");
+   if(fp==NULL)
+printf("\n REQUEST FOR OPENING FILE KOLLAM IS DECLINED");
+   else
+   {
+fprintf(fp,"%d",lvl1);
+fprintf(fp,"\n");
+fprintf(fp,"%d",lvl2);
+fprintf(fp,"\n");
+fprintf(fp,"%d",lvl3);
+fprintf(fp,"\n");
+fprintf(fp,"%d",cured);
+fprintf(fp,"\n");
+fprintf(fp,"%d",death);
+fprintf(fp,"\n");
+fprintf(fp,"%d",vent);
+fclose(fp);
+   }
+fp=fopen("kolar.txt","w+");
+   if(fp==NULL)
+printf("\n REQUEST FOR OPENING FILE KOLAR IS DECLINED");
+   else
+   {
+fprintf(fp,"%d",lvl1);
+fprintf(fp,"\n");
+fprintf(fp,"%d",lvl2);
+fprintf(fp,"\n");
+fprintf(fp,"%d",lvl3);
+fprintf(fp,"\n");
+fprintf(fp,"%d",cured);
+fprintf(fp,"\n");
+fprintf(fp,"%d",death);
+fprintf(fp,"\n");
+fprintf(fp,"%d",vent);
+fclose(fp);
+   }
+fp=fopen("bagalkot.txt","w+");
+   if(fp==NULL)
+printf("\n REQUEST FOR OPENING FILE BAGALKOT IS DECLINED");
+   else
+   {
+fprintf(fp,"%d",lvl1);
+fprintf(fp,"\n");
+fprintf(fp,"%d",lvl2);
+fprintf(fp,"\n");
+fprintf(fp,"%d",lvl3);
+fprintf(fp,"\n");
+fprintf(fp,"%d",cured);
+fprintf(fp,"\n");
+fprintf(fp,"%d",death);
+fprintf(fp,"\n");
+fprintf(fp,"%d",vent);
+fclose(fp);
+   }
+fp=fopen("belagari.txt","w+");
+   if(fp==NULL)
+printf("\n REQUEST FOR OPENING FILE BELAGARI IS DECLINED");
+   else
+   {
+fprintf(fp,"%d",lvl1);
+fprintf(fp,"\n");
+fprintf(fp,"%d",lvl2);
+fprintf(fp,"\n");
+fprintf(fp,"%d",lvl3);
+fprintf(fp,"\n");
+fprintf(fp,"%d",cured);
+fprintf(fp,"\n");
+fprintf(fp,"%d",death);
+fprintf(fp,"\n");
+fprintf(fp,"%d",vent);
+fclose(fp);
+   }
+}
+
+
+
+void READDATA (void)
+
+{
+    int state,dist,lvl1,lvl2,lvl3,cured,death,vent;
+clrscr();
+printf("-----------------------------------\n");
+printf("1.TAMILNADU\n2.KERALA\n3.KARNATAKA\n");
+printf("-----------------------------------\n");
+printf("ENTER STATE ID: ");
+scanf("%d",&state);
+    switch(state)
+    {
+       case 1 :
+		clrscr();
+		printf("\n------------------------------------");
+		printf("\n\t\t\tSTATE 1 : TAMIL NADU");
+		printf("\n------------------------------------");
+		printf("\n1.MADURAI\n2.NAGAPATTINAM\n3.COIMBATORE");
+		printf("\n---------------------------------------");
+		printf("\n ENTER DISTRICT ID : ");
+		scanf("%d",&dist);
+		switch(dist)
+		{
+		   case 1:
+			clrscr();
+			printf("\t\t\t STATE 1 : TAMILNADU---DISTRICT 1: MADURAI");
+			printf("\n ENTER THE NUMBER OF PATIENTS RECORDED IN LEVEL 1 : ");
+			scanf("%d",&lvl1);
+			printf("\n ENTER THE NUMBER OF PATIENTS RECORDED IN LEVEL 2 : ");
+			scanf("%d",&lvl2);
+			printf("\n ENTER THE NUMBER OF PATIENTS RECORDED IN LEVEL 3 : ");
+			scanf("%d",&lvl3);
+			printf("\n ENTER THE NUMBER OF PATIENTS CURED : ");
+			scanf("%d",&cured);
+			printf("\n ENTER THE NUMBER OF PATIENTS DEAD : ");
+			scanf("%d",&death);
+			printf("\n ENTER THE NUMBER OF VENTILATORS AVAILABLE : ");
+			scanf("%d",&vent);
+			fp=fopen("madurai.txt","w+");
+			   if(fp==NULL)
+			printf("\n REQUEST FOR OPENING FILE MADURAI IS DECLINED");
+			   else
+			   {
+			fprintf(fp,"%d",lvl1);
+			fprintf(fp,"\n");
+			fprintf(fp,"%d",lvl2);
+			fprintf(fp,"\n");
+			fprintf(fp,"%d",lvl3);
+			fprintf(fp,"\n");
+			fprintf(fp,"%d",cured);
+			fprintf(fp,"\n");
+			fprintf(fp,"%d",death);
+			fprintf(fp,"\n");
+			fprintf(fp,"%d",vent);
+			fprintf(fp,"\n");
+			fclose(fp);
+			   }
+			   break;
+		   case 2:
+			clrscr();
+			printf("\t\t\t STATE 1 : TAMILNADU---DISTRICT 2: NAGAPATTINAM");
+			printf("\n ENTER THE NUMBER OF PATIENTS RECORDED IN LEVEL 1 : ");
+			scanf("%d",&lvl1);
+			printf("\n ENTER THE NUMBER OF PATIENTS RECORDED IN LEVEL 2 : ");
+			scanf("%d",&lvl2);
+			printf("\n ENTER THE NUMBER OF PATIENTS RECORDED IN LEVEL 3 : ");
+			scanf("%d",&lvl3);
+			printf("\n ENTER THE NUMBER OF PATIENTS CURED : ");
+			scanf("%d",&cured);
+			printf("\n ENTER THE NUMBER OF PATIENTS DEAD : ");
+			scanf("%d",&death);
+			printf("\n ENTER THE NUMBER OF VENTILATORS AVAILABLE : ");
+			scanf("%d",&vent);
+			fp=fopen("nagapattinam.txt","w+");
+			   if(fp==NULL)
+			printf("\n REQUEST FOR OPENING FILE NAGAPATTINAM IS DECLINED");
+			   else
+			   {
+			fprintf(fp,"%d",lvl1);
+			fprintf(fp,"\n");
+			fprintf(fp,"%d",lvl2);
+			fprintf(fp,"\n");
+			fprintf(fp,"%d",lvl3);
+			fprintf(fp,"\n");
+			fprintf(fp,"%d",cured);
+			fprintf(fp,"\n");
+			fprintf(fp,"%d",death);
+			fprintf(fp,"\n");
+			fprintf(fp,"%d",vent);
+			fprintf(fp,"\n");
+			fclose(fp);
+			   }
+			   break;
+		   case 3:
+			clrscr();
+			printf("\t\t\t STATE 1 : TAMILNADU---DISTRICT 3: COIMBATORE");
+			printf("\n ENTER THE NUMBER OF PATIENTS RECORDED IN LEVEL 1 : ");
+			scanf("%d",&lvl1);
+			printf("\n ENTER THE NUMBER OF PATIENTS RECORDED IN LEVEL 2 : ");
+			scanf("%d",&lvl2);
+			printf("\n ENTER THE NUMBER OF PATIENTS RECORDED IN LEVEL 3 : ");
+			scanf("%d",&lvl3);
+			printf("\n ENTER THE NUMBER OF PATIENTS CURED : ");
+			scanf("%d",&cured);
+			printf("\n ENTER THE NUMBER OF PATIENTS DEAD : ");
+			scanf("%d",&death);
+			printf("\n ENTER THE NUMBER OF VENTILATORS AVAILABLE : ");
+			scanf("%d",&vent);
+			fp=fopen("coimbatore.txt","w+");
+			   if(fp==NULL)
+			printf("\n REQUEST FOR OPENING FILE COIMBATORE IS DECLINED");
+			   else
+			   {
+			fprintf(fp,"%d",lvl1);
+			fprintf(fp,"\n");
+			fprintf(fp,"%d",lvl2);
+			fprintf(fp,"\n");
+			fprintf(fp,"%d",lvl3);
+			fprintf(fp,"\n");
+			fprintf(fp,"%d",cured);
+			fprintf(fp,"\n");
+			fprintf(fp,"%d",death);
+			fprintf(fp,"\n");
+			fprintf(fp,"%d",vent);
+			fprintf(fp,"\n");
+			fclose(fp);
+			   }
+			   break;
+		   default: printf("\n ENTER A VALID DISTRICT ID BETWEEN 1-3");
+		}
+		break;
+       case 2:
+		clrscr();
+		printf("\n------------------------------------");
+		printf("\n\t\t\tSTATE 2 : KERALA");
+		printf("\n------------------------------------");
+		printf("\n1.ERNAKULAM\n2.ALAPPUZHA\n3.KOLLAM");
+		printf("\n---------------------------------------");
+		printf("\n ENTER DISTRICT ID : ");
+		scanf("%d",&dist);
+		switch(dist)
+		{
+		   case 1:
+			clrscr();
+			printf("\t\t\t STATE 2 : KERALA---DISTRICT 1: ERNAKULAM");
+			printf("\n ENTER THE NUMBER OF PATIENTS RECORDED IN LEVEL 1 : ");
+			scanf("%d",&lvl1);
+			printf("\n ENTER THE NUMBER OF PATIENTS RECORDED IN LEVEL 2 : ");
+			scanf("%d",&lvl2);
+			printf("\n ENTER THE NUMBER OF PATIENTS RECORDED IN LEVEL 3 : ");
+			scanf("%d",&lvl3);
+			printf("\n ENTER THE NUMBER OF PATIENTS CURED : ");
+			scanf("%d",&cured);
+			printf("\n ENTER THE NUMBER OF PATIENTS DEAD : ");
+			scanf("%d",&death);
+			printf("\n ENTER THE NUMBER OF VENTILATORS AVAILABLE : ");
+			scanf("%d",&vent);
+			fp=fopen("ernakulam.txt","w+");
+			   if(fp==NULL)
+			printf("\n REQUEST FOR OPENING FILE ERNAKULAM IS DECLINED");
+			   else
+			   {
+			fprintf(fp,"%d",lvl1);
+			fprintf(fp,"\n");
+			fprintf(fp,"%d",lvl2);
+			fprintf(fp,"\n");
+			fprintf(fp,"%d",lvl3);
+			fprintf(fp,"\n");
+			fprintf(fp,"%d",cured);
+			fprintf(fp,"\n");
+			fprintf(fp,"%d",death);
+			fprintf(fp,"\n");
+			fprintf(fp,"%d",vent);
+			fprintf(fp,"\n");
+			fclose(fp);
+			   }
+			   break;
+		   case 2:
+			clrscr();
+			printf("\t\t\t STATE 2 : KERALA---DISTRICT 2: ALAPPUZHA");
+			printf("\n ENTER THE NUMBER OF PATIENTS RECORDED IN LEVEL 1 : ");
+			scanf("%d",&lvl1);
+			printf("\n ENTER THE NUMBER OF PATIENTS RECORDED IN LEVEL 2 : ");
+			scanf("%d",&lvl2);
+			printf("\n ENTER THE NUMBER OF PATIENTS RECORDED IN LEVEL 3 : ");
+			scanf("%d",&lvl3);
+			printf("\n ENTER THE NUMBER OF PATIENTS CURED : ");
+			scanf("%d",&cured);
+			printf("\n ENTER THE NUMBER OF PATIENTS DEAD : ");
+			scanf("%d",&death);
+			printf("\n ENTER THE NUMBER OF VENTILATORS AVAILABLE : ");
+			scanf("%d",&vent);
+			fp=fopen("alappuzha.txt","w+");
+			   if(fp==NULL)
+			printf("\n REQUEST FOR OPENING FILE ALAPPUZHA IS DECLINED");
+			   else
+			   {
+			fprintf(fp,"%d",lvl1);
+			fprintf(fp,"\n");
+			fprintf(fp,"%d",lvl2);
+			fprintf(fp,"\n");
+			fprintf(fp,"%d",lvl3);
+			fprintf(fp,"\n");
+			fprintf(fp,"%d",cured);
+			fprintf(fp,"\n");
+			fprintf(fp,"%d",death);
+			fprintf(fp,"\n");
+			fprintf(fp,"%d",vent);
+			fprintf(fp,"\n");
+			fclose(fp);
+			   }
+			   break;
+		   case 3:
+			clrscr();
+			printf("\t\t\t STATE 1 : KERALA---DISTRICT 3: KOLLAM");
+			printf("\n ENTER THE NUMBER OF PATIENTS RECORDED IN LEVEL 1 : ");
+			scanf("%d",&lvl1);
+			printf("\n ENTER THE NUMBER OF PATIENTS RECORDED IN LEVEL 2 : ");
+			scanf("%d",&lvl2);
+			printf("\n ENTER THE NUMBER OF PATIENTS RECORDED IN LEVEL 3 : ");
+			scanf("%d",&lvl3);
+			printf("\n ENTER THE NUMBER OF PATIENTS CURED : ");
+			scanf("%d",&cured);
+			printf("\n ENTER THE NUMBER OF PATIENTS DEAD : ");
+			scanf("%d",&death);
+			printf("\n ENTER THE NUMBER OF VENTILATORS AVAILABLE : ");
+			scanf("%d",&vent);
+			fp=fopen("kollam.txt","w+");
+			   if(fp==NULL)
+			printf("\n REQUEST FOR OPENING FILE KOLLAM IS DECLINED");
+			   else
+			   {
+			fprintf(fp,"%d",lvl1);
+			fprintf(fp,"\n");
+			fprintf(fp,"%d",lvl2);
+			fprintf(fp,"\n");
+			fprintf(fp,"%d",lvl3);
+			fprintf(fp,"\n");
+			fprintf(fp,"%d",cured);
+			fprintf(fp,"\n");
+			fprintf(fp,"%d",death);
+			fprintf(fp,"\n");
+			fprintf(fp,"%d",vent);
+			fprintf(fp,"\n");
+			fclose(fp);
+			   }
+			   break;
+		   default: printf("\n ENTER A VALID DISTRICT ID BETWEEN 1-3");
+		}
+		break;
+       case 3:
+		clrscr();
+		printf("\n------------------------------------");
+		printf("\n\t\t\tSTATE 3 : KARNATAKA");
+		printf("\n------------------------------------");
+		printf("\n1.KOLAR\n2.BAGALKOT\n3.BELAGARI");
+		printf("\n---------------------------------------");
+		printf("\n ENTER DISTRICT ID : ");
+		scanf("%d",&dist);
+		switch(dist)
+		{
+		   case 1:
+			clrscr();
+			printf("\t\t\t STATE 3 : KARNATAKA---DISTRICT 1: KOLAR");
+			printf("\n ENTER THE NUMBER OF PATIENTS RECORDED IN LEVEL 1 : ");
+			scanf("%d",&lvl1);
+			printf("\n ENTER THE NUMBER OF PATIENTS RECORDED IN LEVEL 2 : ");
+			scanf("%d",&lvl2);
+			printf("\n ENTER THE NUMBER OF PATIENTS RECORDED IN LEVEL 3 : ");
+			scanf("%d",&lvl3);
+			printf("\n ENTER THE NUMBER OF PATIENTS CURED : ");
+			scanf("%d",&cured);
+			printf("\n ENTER THE NUMBER OF PATIENTS DEAD : ");
+			scanf("%d",&death);
+			printf("\n ENTER THE NUMBER OF VENTILATORS AVAILABLE : ");
+			scanf("%d",&vent);
+			fp=fopen("kolar.txt","w+");
+			   if(fp==NULL)
+			printf("\n REQUEST FOR OPENING FILE KOLAR IS DECLINED");
+			   else
+			   {
+			fprintf(fp,"%d",lvl1);
+			fprintf(fp,"\n");
+			fprintf(fp,"%d",lvl2);
+			fprintf(fp,"\n");
+			fprintf(fp,"%d",lvl3);
+			fprintf(fp,"\n");
+			fprintf(fp,"%d",cured);
+			fprintf(fp,"\n");
+			fprintf(fp,"%d",death);
+			fprintf(fp,"\n");
+			fprintf(fp,"%d",vent);
+			fprintf(fp,"\n");
+			fclose(fp);
+			   }
+			   break;
+		   case 2:
+			clrscr();
+			printf("\t\t\t STATE 3 : KARNATAKA---DISTRICT 2: BAGALKOT");
+			printf("\n ENTER THE NUMBER OF PATIENTS RECORDED IN LEVEL 1 : ");
+			scanf("%d",&lvl1);
+			printf("\n ENTER THE NUMBER OF PATIENTS RECORDED IN LEVEL 2 : ");
+			scanf("%d",&lvl2);
+			printf("\n ENTER THE NUMBER OF PATIENTS RECORDED IN LEVEL 3 : ");
+			scanf("%d",&lvl3);
+			printf("\n ENTER THE NUMBER OF PATIENTS CURED : ");
+			scanf("%d",&cured);
+			printf("\n ENTER THE NUMBER OF PATIENTS DEAD : ");
+			scanf("%d",&death);
+			printf("\n ENTER THE NUMBER OF VENTILATORS AVAILABLE : ");
+			scanf("%d",&vent);
+			fp=fopen("bagalkot.txt","w+");
+			   if(fp==NULL)
+			printf("\n REQUEST FOR OPENING FILE BAGALKOT IS DECLINED");
+			   else
+			   {
+			fprintf(fp,"%d",lvl1);
+			fprintf(fp,"\n");
+			fprintf(fp,"%d",lvl2);
+			fprintf(fp,"\n");
+			fprintf(fp,"%d",lvl3);
+			fprintf(fp,"\n");
+			fprintf(fp,"%d",cured);
+			fprintf(fp,"\n");
+			fprintf(fp,"%d",death);
+			fprintf(fp,"\n");
+			fprintf(fp,"%d",vent);
+			fprintf(fp,"\n");
+			fclose(fp);
+			   }
+			   break;
+		   case 3:
+			clrscr();
+			printf("\t\t\t STATE 1 : KARNATAKA---DISTRICT 3: BELAGARI");
+			printf("\n ENTER THE NUMBER OF PATIENTS RECORDED IN LEVEL 1 : ");
+			scanf("%d",&lvl1);
+			printf("\n ENTER THE NUMBER OF PATIENTS RECORDED IN LEVEL 2 : ");
+			scanf("%d",&lvl2);
+			printf("\n ENTER THE NUMBER OF PATIENTS RECORDED IN LEVEL 3 : ");
+			scanf("%d",&lvl3);
+			printf("\n ENTER THE NUMBER OF PATIENTS CURED : ");
+			scanf("%d",&cured);
+			printf("\n ENTER THE NUMBER OF PATIENTS DEAD : ");
+			scanf("%d",&death);
+			printf("\n ENTER THE NUMBER OF VENTILATORS AVAILABLE : ");
+			scanf("%d",&vent);
+			fp=fopen("belagari.txt","w+");
+			   if(fp==NULL)
+			printf("\n REQUEST FOR OPENING FILE BELAGARI IS DECLINED");
+			   else
+			   {
+			fprintf(fp,"%d",lvl1);
+			fprintf(fp,"\n");
+			fprintf(fp,"%d",lvl2);
+			fprintf(fp,"\n");
+			fprintf(fp,"%d",lvl3);
+			fprintf(fp,"\n");
+			fprintf(fp,"%d",cured);
+			fprintf(fp,"\n");
+			fprintf(fp,"%d",death);
+			fprintf(fp,"\n");
+			fprintf(fp,"%d",vent);
+			fprintf(fp,"\n");
+			fclose(fp);
+			   }
+			   break;
+		   default: printf("\n ENTER A VALID DISTRICT ID BETWEEN 1-3");
+		}
+		break;
+       default: printf("\nPLEASE ENTER A VALID STATE ID BETWEEN 1-3");
+    }
+}
+
+void INFORMATION(void)
+{
+    int lvl1,lvl2,lvl3,cured,death,vent,state,dist;
+clrscr();
+printf("-----------------------------------\n");
+printf("1.TAMILNADU\n2.KERALA\n3.KARNATAKA\n");
+printf("-----------------------------------\n");
+printf("ENTER STATE ID: ");
+scanf("%d",&state);
+    switch(state)
+    {
+       case 1 :
+		clrscr();
+		printf("\n------------------------------------");
+		printf("\n\t\t\tSTATE 1 : TAMIL NADU");
+		printf("\n------------------------------------");
+		printf("\n1.MADURAI\n2.NAGAPATTINAM\n3.COIMBATORE\n4.ALL");
+		printf("\n---------------------------------------");
+		printf("\n ENTER DISTRICT ID : ");
+		scanf("%d",&dist);
+		switch(dist)
+		{
+		   case 1:
+			clrscr();
+			printf("\t\t\t STATE 1 : TAMILNADU---DISTRICT 1: MADURAI");
+			fp=fopen("madurai.txt","r");
+			   if(fp==NULL)
+			printf("\n REQUEST FOR OPENING FILE MADURAI IS DECLINED");
+			   else
+			   {
+			fscanf(fp,"%d %d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death,&vent);
+			printf("\n THE NUMBER OF PATIENTS IN LEVEL 1 ARE : %d",lvl1);
+			printf("\n THE NUMBER OF PATIENTS IN LEVEL 2 ARE : %d",lvl2);
+			printf("\n THE NUMBER OF PATIENTS IN LEVEL 3 ARE : %d",lvl3);
+			printf("\n THE NUMBER OF PATIENTS RECOVERED ARE : %d",cured);
+			printf("\n THE NUMBER OF PATIENTS DEAD ARE : %d",death);
+			printf("\n THE NUMBER OF VENTILATORS IS : %d",vent);
+			getch();
+			fclose(fp);
+			   }
+			   break;
+		   case 2:
+			clrscr();
+			printf("\t\t\t STATE 1 : TAMILNADU---DISTRICT 2: NAGAPATTINAM");
+			fp=fopen("nagapattinam.txt","r");
+			   if(fp==NULL)
+			printf("\n REQUEST FOR OPENING FILE NAGAPATTINAM IS DECLINED");
+			   else
+			   {
+			fscanf(fp,"%d %d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death,&vent);
+			printf("\n THE NUMBER OF PATIENTS IN LEVEL 1 ARE : %d",lvl1);
+			printf("\n THE NUMBER OF PATIENTS IN LEVEL 2 ARE : %d",lvl2);
+			printf("\n THE NUMBER OF PATIENTS IN LEVEL 3 ARE : %d",lvl3);
+			printf("\n THE NUMBER OF PATIENTS RECOVERED ARE : %d",cured);
+			printf("\n THE NUMBER OF PATIENTS DEAD ARE : %d",death);
+			printf("\n THE NUMBER OF VENTILATORS IS : %d",vent);
+			getch();
+			fclose(fp);
+			   }
+			   break;
+		   case 3:
+			clrscr();
+			printf("\t\t\t STATE 1 : TAMILNADU---DISTRICT 3: COIMBATORE");
+			fp=fopen("coimbatore.txt","r");
+			   if(fp==NULL)
+				printf("\n REQUEST FOR OPENING FILE COIMBATORE IS DECLINED");
+			   else
+			   {
+			fscanf(fp,"%d  %d  %d  %d  %d  %d",&lvl1,&lvl2,&lvl3,&cured,&death,&vent);
+			printf("\n THE NUMBER OF PATIENTS IN LEVEL 1 ARE : %d",lvl1);
+			printf("\n THE NUMBER OF PATIENTS IN LEVEL 2 ARE : %d",lvl2);
+			printf("\n THE NUMBER OF PATIENTS IN LEVEL 3 ARE : %d",lvl3);
+			printf("\n THE NUMBER OF PATIENTS RECOVERED ARE : %d",cured);
+			printf("\n THE NUMBER OF PATIENTS DEAD ARE : %d",death);
+			printf("\n THE NUMBER OF VENTILATORS IS : %d",vent);
+			getch();
+			fclose(fp);
+			   }
+			   break;
+		   case 4:
+			clrscr();
+			printf("\n\t\t\t STATE 1: TAMIL NADU");
+			printf("\n\t\t\t DISTRICT : 1 : MADURAI");
+			fp=fopen("madurai.txt","r");
+			   if(fp==NULL)
+			printf("\n REQUEST FOR OPENING FILE MADURAI IS DECLINED");
+			   else
+			   {
+			fscanf(fp,"%d %d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death,&vent);
+			printf("\n THE NUMBER OF PATIENTS IN LEVEL 1 ARE : %d",lvl1);
+			printf("\n THE NUMBER OF PATIENTS IN LEVEL 2 ARE : %d",lvl2);
+			printf("\n THE NUMBER OF PATIENTS IN LEVEL 3 ARE : %d",lvl3);
+			printf("\n THE NUMBER OF PATIENTS RECOVERED ARE : %d",cured);
+			printf("\n THE NUMBER OF PATIENTS DEAD ARE : %d",death);
+			printf("\n THE NUMBER OF VENTILATORS IS : %d",vent);
+			printf("---------------------------------------------------");
+			getch();
+			fclose(fp);
+			   }
+			printf("\n\t\t\t DISTRICT : 2 : NAGAPATTINAM");
+			fp=fopen("nagapattinam.txt","r");
+			   if(fp==NULL)
+			printf("\n REQUEST FOR OPENING FILE NAGAPATTINAM IS DECLINED");
+			   else
+			   {
+			fscanf(fp,"%d %d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death,&vent);
+			printf("\n THE NUMBER OF PATIENTS IN LEVEL 1 ARE : %d",lvl1);
+			printf("\n THE NUMBER OF PATIENTS IN LEVEL 2 ARE : %d",lvl2);
+			printf("\n THE NUMBER OF PATIENTS IN LEVEL 3 ARE : %d",lvl3);
+			printf("\n THE NUMBER OF PATIENTS RECOVERED ARE : %d",cured);
+			printf("\n THE NUMBER OF PATIENTS DEAD ARE : %d",death);
+			printf("\n THE NUMBER OF VENTILATORS IS : %d",vent);
+			printf("---------------------------------------------------");
+			getch();
+			fclose(fp);
+			   }
+			printf("\n\t\t\t DISTRICT : 3 : COIMBATORE");
+			fp=fopen("coimbatore.txt","r");
+			   if(fp==NULL)
+			printf("\n REQUEST FOR OPENING FILE COIMBATORE IS DECLINED");
+			   else
+			   {
+			fscanf(fp,"%d %d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death,&vent);
+			printf("\n THE NUMBER OF PATIENTS IN LEVEL 1 ARE : %d",lvl1);
+			printf("\n THE NUMBER OF PATIENTS IN LEVEL 2 ARE : %d",lvl2);
+			printf("\n THE NUMBER OF PATIENTS IN LEVEL 3 ARE : %d",lvl3);
+			printf("\n THE NUMBER OF PATIENTS RECOVERED ARE : %d",cured);
+			printf("\n THE NUMBER OF PATIENTS DEAD ARE : %d",death);
+			printf("\n THE NUMBER OF VENTILATORS IS : %d",vent);
+			printf("---------------------------------------------------");
+			getch();
+			fclose(fp);
+			   }
+
+		   default: printf("\n ENTER A VALID DISTRICT ID BETWEEN 1-4");
+		}
+		break;
+       case 2:
+		clrscr();
+		printf("\n------------------------------------");
+		printf("\n\t\t\tSTATE 2 : KERALA");
+		printf("\n------------------------------------");
+		printf("\n1.ERNAKULAM\n2.ALAPPUZHA\n3.KOLLAM\n4.ALL");
+		printf("---------------------------------------");
+		printf("\n ENTER DISTRICT ID : ");
+		scanf("%d",&dist);
+		switch(dist)
+		{
+		   case 1:
+			clrscr();
+			printf("\t\t\t STATE 2 : KERALA---DISTRICT 1: ERNAKULAM");
+			fp=fopen("ernakulam.txt","r");
+			   if(fp==NULL)
+			printf("\n REQUEST FOR OPENING FILE ERNAKULAM IS DECLINED");
+			   else
+			   {
+			fscanf(fp,"%d %d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death,&vent);
+			printf("\n THE NUMBER OF PATIENTS IN LEVEL 1 ARE : %d",lvl1);
+			printf("\n THE NUMBER OF PATIENTS IN LEVEL 2 ARE : %d",lvl2);
+			printf("\n THE NUMBER OF PATIENTS IN LEVEL 3 ARE : %d",lvl3);
+			printf("\n THE NUMBER OF PATIENTS RECOVERED ARE : %d",cured);
+			printf("\n THE NUMBER OF PATIENTS DEAD ARE : %d",death);
+			printf("\n THE NUMBER OF VENTILATORS IS : %d",vent);
+			getch();
+			fclose(fp);
+			   }
+			   break;
+		   case 2:
+			clrscr();
+			printf("\t\t\t STATE 2 : KERALA---DISTRICT 2:ALAPPUZHA");
+			fp=fopen("alappuzha.txt","r");
+			   if(fp==NULL)
+			printf("\n REQUEST FOR OPENING FILE ALAPPUZHA IS DECLINED");
+			   else
+			   {
+			fscanf(fp,"%d %d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death,&vent);
+			printf("\n THE NUMBER OF PATIENTS IN LEVEL 1 ARE : %d",lvl1);
+			printf("\n THE NUMBER OF PATIENTS IN LEVEL 2 ARE : %d",lvl2);
+			printf("\n THE NUMBER OF PATIENTS IN LEVEL 3 ARE : %d",lvl3);
+			printf("\n THE NUMBER OF PATIENTS RECOVERED ARE : %d",cured);
+			printf("\n THE NUMBER OF PATIENTS DEAD ARE : %d",death);
+			printf("\n THE NUMBER OF VENTILATORS IS : %d",vent);
+			getch();
+			fclose(fp);
+			   }
+			   break;
+		   case 3:
+			clrscr();
+			printf("\t\t\t STATE 2 : KERALA---DISTRICT 3: KOLLAM");
+			fp=fopen("kollam.txt","r");
+			   if(fp==NULL)
+			printf("\n REQUEST FOR OPENING FILE KOLLAM IS DECLINED");
+			   else
+			   {
+			fscanf(fp,"%d %d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death,&vent);
+			printf("\n THE NUMBER OF PATIENTS IN LEVEL 1 ARE : %d",lvl1);
+			printf("\n THE NUMBER OF PATIENTS IN LEVEL 2 ARE : %d",lvl2);
+			printf("\n THE NUMBER OF PATIENTS IN LEVEL 3 ARE : %d",lvl3);
+			printf("\n THE NUMBER OF PATIENTS RECOVERED ARE : %d",cured);
+			printf("\n THE NUMBER OF PATIENTS DEAD ARE : %d",death);
+			printf("\n THE NUMBER OF VENTILATORS IS : %d",vent);
+			getch();
+			fclose(fp);
+			   }
+			   break;
+		   case 4:
+			clrscr();
+			printf("\n\t\t\t STATE 2: KERALA");
+			printf("\n\t\t\t DISTRICT : 1 : ERNAKULAM");
+			fp=fopen("ernakulam.txt","r");
+			   if(fp==NULL)
+			printf("\n REQUEST FOR OPENING FILE ERNAKULAM IS DECLINED");
+			   else
+			   {
+			fscanf(fp,"%d %d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death,&vent);
+			printf("\n THE NUMBER OF PATIENTS IN LEVEL 1 ARE : %d",lvl1);
+			printf("\n THE NUMBER OF PATIENTS IN LEVEL 2 ARE : %d",lvl2);
+			printf("\n THE NUMBER OF PATIENTS IN LEVEL 3 ARE : %d",lvl3);
+			printf("\n THE NUMBER OF PATIENTS RECOVERED ARE : %d",cured);
+			printf("\n THE NUMBER OF PATIENTS DEAD ARE : %d",death);
+			printf("\n THE NUMBER OF VENTILATORS IS : %d",vent);
+			printf("---------------------------------------------------");
+			fclose(fp);
+			   }
+			printf("\n\t\t\t DISTRICT : 2 : ALAPPUZHA");
+			fp=fopen("alappuzha.txt","r");
+			   if(fp==NULL)
+			printf("\n REQUEST FOR OPENING FILE ALAPPUZHA IS DECLINED");
+			   else
+			   {
+			fscanf(fp,"%d %d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death,&vent);
+			printf("\n THE NUMBER OF PATIENTS IN LEVEL 1 ARE : %d",lvl1);
+			printf("\n THE NUMBER OF PATIENTS IN LEVEL 2 ARE : %d",lvl2);
+			printf("\n THE NUMBER OF PATIENTS IN LEVEL 3 ARE : %d",lvl3);
+			printf("\n THE NUMBER OF PATIENTS RECOVERED ARE : %d",cured);
+			printf("\n THE NUMBER OF PATIENTS DEAD ARE : %d",death);
+			printf("\n THE NUMBER OF VENTILATORS IS : %d",vent);
+			printf("---------------------------------------------------");
+			getch();
+			fclose(fp);
+			   }
+			printf("\n\t\t\t DISTRICT : 3 : KOLLAM");
+			fp=fopen("kollam.txt","r");
+			   if(fp==NULL)
+			printf("\n REQUEST FOR OPENING FILE KOLLAM IS DECLINED");
+			   else
+			   {
+			fscanf(fp,"%d %d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death,&vent);
+			printf("\n THE NUMBER OF PATIENTS IN LEVEL 1 ARE : %d",lvl1);
+			printf("\n THE NUMBER OF PATIENTS IN LEVEL 2 ARE : %d",lvl2);
+			printf("\n THE NUMBER OF PATIENTS IN LEVEL 3 ARE : %d",lvl3);
+			printf("\n THE NUMBER OF PATIENTS RECOVERED ARE : %d",cured);
+			printf("\n THE NUMBER OF PATIENTS DEAD ARE : %d",death);
+			printf("\n THE NUMBER OF VENTILATORS IS : %d",vent);
+			printf("---------------------------------------------------");
+			getch();
+			fclose(fp);
+			   }
+
+		   default: printf("\n ENTER A VALID DISTRICT ID BETWEEN 1-4");
+		}
+		break;
+
+       case 3:
+		clrscr();
+		printf("\n------------------------------------");
+		printf("\n\t\t\tSTATE 3 : KARNATAKA");
+		printf("\n------------------------------------");
+		printf("\n1.KOLAR\n2.BAGALKOT\n3.BELAGARI\n4.ALL");
+		printf("---------------------------------------");
+		printf("\n ENTER DISTRICT ID : ");
+		scanf("%d",&dist);
+		switch(dist)
+		{
+		   case 1:
+			clrscr();
+			printf("\t\t\t STATE 3 : KARNATAKA---DISTRICT 1: KOLAR");
+			fp=fopen("kolar.txt","r");
+			   if(fp==NULL)
+			printf("\n REQUEST FOR OPENING FILE KOLAR IS DECLINED");
+			   else
+			   {
+			fscanf(fp,"%d %d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death,&vent);
+			printf("\n THE NUMBER OF PATIENTS IN LEVEL 1 ARE : %d",lvl1);
+			printf("\n THE NUMBER OF PATIENTS IN LEVEL 2 ARE : %d",lvl2);
+			printf("\n THE NUMBER OF PATIENTS IN LEVEL 3 ARE : %d",lvl3);
+			printf("\n THE NUMBER OF PATIENTS RECOVERED ARE : %d",cured);
+			printf("\n THE NUMBER OF PATIENTS DEAD ARE : %d",death);
+			printf("\n THE NUMBER OF VENTILATORS IS : %d",vent);
+			getch();
+			fclose(fp);
+			   }
+			   break;
+		   case 2:
+			clrscr();
+			printf("\t\t\t STATE 3 : KARNATAKA---DISTRICT 2: BAGALKOT");
+			fp=fopen("bagalkot.txt","r");
+			   if(fp==NULL)
+			printf("\n REQUEST FOR OPENING FILE BAGALKOT IS DECLINED");
+			   else
+			   {
+			fscanf(fp,"%d %d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death,&vent);
+			printf("\n THE NUMBER OF PATIENTS IN LEVEL 1 ARE : %d",lvl1);
+			printf("\n THE NUMBER OF PATIENTS IN LEVEL 2 ARE : %d",lvl2);
+			printf("\n THE NUMBER OF PATIENTS IN LEVEL 3 ARE : %d",lvl3);
+			printf("\n THE NUMBER OF PATIENTS RECOVERED ARE : %d",cured);
+			printf("\n THE NUMBER OF PATIENTS DEAD ARE : %d",death);
+			printf("\n THE NUMBER OF VENTILATORS IS : %d",vent);
+			getch();
+			fclose(fp);
+			   }
+			   break;
+		   case 3:
+			clrscr();
+			printf("\t\t\t STATE 3 : KARNATAKA---DISTRICT 3: BELAGARI");
+			fp=fopen("belagari.txt","r");
+			   if(fp==NULL)
+			printf("\n REQUEST FOR OPENING FILE BELAGARI IS DECLINED");
+			   else
+			   {
+			fscanf(fp,"%d %d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death,&vent);
+			printf("\n THE NUMBER OF PATIENTS IN LEVEL 1 ARE : %d",lvl1);
+			printf("\n THE NUMBER OF PATIENTS IN LEVEL 2 ARE : %d",lvl2);
+			printf("\n THE NUMBER OF PATIENTS IN LEVEL 3 ARE : %d",lvl3);
+			printf("\n THE NUMBER OF PATIENTS RECOVERED ARE : %d",cured);
+			printf("\n THE NUMBER OF PATIENTS DEAD ARE : %d",death);
+			printf("\n THE NUMBER OF VENTILATORS IS : %d",vent);
+			getch();
+			fclose(fp);
+			   }
+			   break;
+		   case 4:
+			clrscr();
+			printf("\n\t\t\t STATE 1: KARNATAKA");
+			printf("\n\t\t\t DISTRICT : 1 : KOLAR");
+			fp=fopen("kolar.txt","r");
+			   if(fp==NULL)
+			printf("\n REQUEST FOR OPENING FILE KOLAR IS DECLINED");
+			   else
+			   {
+			fscanf(fp,"%d %d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death,&vent);
+			printf("\n THE NUMBER OF PATIENTS IN LEVEL 1 ARE : %d",lvl1);
+			printf("\n THE NUMBER OF PATIENTS IN LEVEL 2 ARE : %d",lvl2);
+			printf("\n THE NUMBER OF PATIENTS IN LEVEL 3 ARE : %d",lvl3);
+			printf("\n THE NUMBER OF PATIENTS RECOVERED ARE : %d",cured);
+			printf("\n THE NUMBER OF PATIENTS DEAD ARE : %d",death);
+			printf("\n THE NUMBER OF VENTILATORS IS : %d",vent);
+			printf("---------------------------------------------------");
+			getch();
+			fclose(fp);
+			   }
+			printf("\n\t\t\t DISTRICT : 2 : BAGALKOT");
+			fp=fopen("bagalkot.txt","r");
+			   if(fp==NULL)
+			printf("\n REQUEST FOR OPENING FILE BAGALKOT IS DECLINED");
+			   else
+			   {
+			fscanf(fp,"%d %d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death,&vent);
+			printf("\n THE NUMBER OF PATIENTS IN LEVEL 1 ARE : %d",lvl1);
+			printf("\n THE NUMBER OF PATIENTS IN LEVEL 2 ARE : %d",lvl2);
+			printf("\n THE NUMBER OF PATIENTS IN LEVEL 3 ARE : %d",lvl3);
+			printf("\n THE NUMBER OF PATIENTS RECOVERED ARE : %d",cured);
+			printf("\n THE NUMBER OF PATIENTS DEAD ARE : %d",death);
+			printf("\n THE NUMBER OF VENTILATORS IS : %d",vent);
+			printf("---------------------------------------------------");
+			getch();
+			fclose(fp);
+			   }
+			printf("\n\t\t\t DISTRICT : 3 : BELAGARI");
+			fp=fopen("belagari.txt","r");
+			   if(fp==NULL)
+			printf("\n REQUEST FOR OPENING FILE BELAGARI IS DECLINED");
+			   else
+			   {
+			fscanf(fp,"%d %d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death,&vent);
+			printf("\n THE NUMBER OF PATIENTS IN LEVEL 1 ARE : %d",lvl1);
+			printf("\n THE NUMBER OF PATIENTS IN LEVEL 2 ARE : %d",lvl2);
+			printf("\n THE NUMBER OF PATIENTS IN LEVEL 3 ARE : %d",lvl3);
+			printf("\n THE NUMBER OF PATIENTS RECOVERED ARE : %d",cured);
+			printf("\n THE NUMBER OF PATIENTS DEAD ARE : %d",death);
+			printf("\n THE NUMBER OF VENTILATORS IS : %d",vent);
+			printf("---------------------------------------------------");
+			getch();
+			fclose(fp);
+			   }
+
+		   default: printf("\n ENTER A VALID DISTRICT ID BETWEEN 1-4");
+		}
+		break;
+
+       default: printf("\nPLEASE ENTER A VALID STATE ID BETWEEN 1-3");
+    }
+}
+
+
+void VENTILATOR_STATUS(void)
+{
+   int lvl1,lvl2,lvl3,vent,cured,death,tot_lvl3=0,tot_vent=0;
+fp=fopen("madurai.txt","r");
+   if(fp==NULL)
+printf("\n REQUEST FOR OPENING FILE MADURAI IS DECLINED");
+   else
+   {
+fscanf(fp,"%d %d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death,&vent);
+tot_vent=tot_vent+vent;
+      tot_lvl3=tot_lvl3+lvl3;
+fclose(fp);
+   }
+fp=fopen("nagapattinam.txt","r");
+   if(fp==NULL)
+printf("\n REQUEST FOR OPENING FILE NAGAPATTINAM IS DECLINED");
+   else
+   {
+fscanf(fp,"%d %d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death,&vent);
+tot_vent=tot_vent+vent;
+      tot_lvl3=tot_lvl3+lvl3;
+fclose(fp);
+   }
+fp=fopen("coimbatore.txt","r");
+   if(fp==NULL)
+printf("\n REQUEST FOR OPENING FILE COIMBATORE IS DECLINED");
+   else
+   {
+fscanf(fp,"%d %d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death,&vent);
+tot_vent=tot_vent+vent;
+      tot_lvl3=tot_lvl3+lvl3;
+fclose(fp);
+   }
+   if(tot_lvl3<tot_vent)
+
+printf("\n THERE  ARE ENOUGH VENTILATORS IN TAMILNADU");
+   else
+   {
+printf("\n ALARM!!!! TAMILNADU HAS A SCARCITY OF VENTILATORS");
+printf("\n %d VENTILATORS ARE REQUIRED IN TAMILNADU",tot_lvl3-tot_vent);
+   }
+   tot_lvl3=0;
+tot_vent=0;
+fp=fopen("ernakulam.txt","r");
+   if(fp==NULL)
+printf("\n REQUEST FOR OPENING FILE ERNAKULAM IS DECLINED");
+   else
+   {
+fscanf(fp,"%d %d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death,&vent);
+tot_vent=tot_vent+vent;
+      tot_lvl3=tot_lvl3+lvl3;
+fclose(fp);
+   }
+fp=fopen("alappuzha.txt","r");
+   if(fp==NULL)
+printf("\n REQUEST FOR OPENING FILE ALAPPUZHA IS DECLINED");
+   else
+   {
+fscanf(fp,"%d %d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death,&vent);
+tot_vent=tot_vent+vent;
+      tot_lvl3=tot_lvl3+lvl3;
+fclose(fp);
+   }
+fp=fopen("kollam.txt","r");
+   if(fp==NULL)
+printf("\n REQUEST FOR OPENING FILE KOLLAM IS DECLINED");
+   else
+   {
+fscanf(fp,"%d %d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death,&vent);
+tot_vent=tot_vent+vent;
+      tot_lvl3=tot_lvl3+lvl3;
+fclose(fp);
+   }
+   if(tot_lvl3<tot_vent)
+printf("\n THERE  ARE ENOUGH VENTILATORS IN KERALA");
+   else
+   {
+printf("\n ALARM!!!! KERALA HAS A SCARCITY OF VENTILATORS");
+printf("\n %d VENTILATORS ARE REQUIRED IN KERALA",tot_lvl3-tot_vent);
+   }
+   tot_lvl3=0;
+tot_vent=0;
+fp=fopen("kolar.txt","r");
+   if(fp==NULL)
+printf("\n REQUEST FOR OPENING FILE KOLAR IS DECLINED");
+   else
+   {
+fscanf(fp,"%d %d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death,&vent);
+tot_vent=tot_vent+vent;
+      tot_lvl3=tot_lvl3+lvl3;
+fclose(fp);
+   }
+fp=fopen("bagalkot.txt","r");
+   if(fp==NULL)
+printf("\n REQUEST FOR OPENING FILE BAGALKOT IS DECLINED");
+   else
+   {
+fscanf(fp,"%d %d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death,&vent);
+tot_vent=tot_vent+vent;
+      tot_lvl3=tot_lvl3+lvl3;
+fclose(fp);
+   }
+fp=fopen("belagari.txt","r");
+   if(fp==NULL)
+printf("\n REQUEST FOR OPENING FILE BELAGARI IS DECLINED");
+   else
+   {
+fscanf(fp,"%d %d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death,&vent);
+tot_vent=tot_vent+vent;
+      tot_lvl3=tot_lvl3+lvl3;
+fclose(fp);
+   }
+   if(tot_lvl3<tot_vent)
+printf("\n THERE  ARE ENOUGH VENTILATORS IN KARNATAKA");
+   else
+   {
+printf("\n ALARM!!!! KARNATAKA HAS A SCARCITY OF VENTILATORS");
+printf("\n %d VENTILATORS ARE REQUIRED IN KARNATAKA",tot_lvl3-tot_vent);
+   }
+getch();
+}
+
+int main()
+{
+  int ch;
+ASSIGN();
+while(1)
+  {
+	clrscr();
+	printf("\n---------CORONA INFORMATION RECORD SYSTEM---------");
+	printf("----------------------------------------------------");
+	printf("MENU :\n1.STATE COMPARISON\n2.DISTRICT COMPARISON\n3.VENTILATOR STATUS\n4.DATA INPUT\n5.INFORMATION\n6.EXIT");
+	printf("------------------------------------------------------------------------------------------------------------");
+	printf("\n ENTER YOUR CHOICE : ");
+	scanf("%d",&ch);
+	switch(ch)
+	{
+		case 3:
+		       VENTILATOR_STATUS();
+		       break;
+		case 4:
+		READDATA();
+		       break;
+		case 5:
+			INFORMATION();
+			break;
+		case 6:
+			printf("\n THANK YOU FOR USING CORONA INFORMATION SYSTEM.\nHOPE IT WAS USEFUL TO YOU.");
+			break;
+		default:printf("\n PLEASE ENTER A CHOICE NUMBER BETWEEN 1-6");
+	}
+	if(ch==6)
+		break;
+  }
+getch();
+return(0);
+}
