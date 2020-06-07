@@ -1,1107 +1,3474 @@
 #include<stdio.h>
 #include<conio.h>
 #include<graphics.h>
-/*FUNCTION DECLARATIONS*/
 void READDATA (void);
 void INFORMATION(void);
 void VENTILATOR_STATUS(void);
-/*void STATE_BAR_CHART(void);
-void DISTRICT_BAR_CHART(void);*/
+void STATE_BAR_CHART(void);
+void DISTRICT_BAR_CHART(void);
+void BAR_CHART(int arr[3][5],int);
 void ASSIGN(void);
+void FILE_WRITE_DATA(void);
+void INFO_MESSAGE(void);
+int INFO_PRINT(void);
+void GET_INFO(void);
+int GET_DIST_ID(int);
+void EPASS(void);
+void E_PASS_FORM(void);
+void E_PASS_DETAILS(void);
 FILE * fp;
+int state,dist,lvl1,lvl2,lvl3,death,cured,vent,population,num=1;
+float percent;
+char name[100],number[12],email[25],dest_dist[30],native[30];
+void E_PASS_DETAILS(void)
+{
+	char temp[100];
+	int i=1;
+	clrscr();
+	printf("\n--------------------------------------------------------------------------------");
+	printf("\n\t\t\t   E-PASS-APPLICANTS-DETAILS:");
+	printf("\n--------------------------------------------------------------------------------");
+	fp=fopen("epasslst.txt","r");
+	while(i<num)
+	{
+		fscanf(fp,"%s %s %s %s %s",name,email,number,native,dest_dist);
+		printf("\nNAME : %s",name);
+		printf("\nEMAIL : %s",email);
+		printf("\nMOBILE NUMBER : %s",number);
+		printf("\nNATIVE DISTRICT : %s",native);
+		printf("\nDESTINATION : %s",dest_dist);
+		printf("\n--------------------------------------------------------------------------------");
+		getch();
+		i++;
+	}
+	fclose(fp);
+	getch();
+}
+void E_PASS_FORM(void)
+{
+     clrscr();
+
+     printf("\n\t\t\t\tE-PASS-APPLICATION");
+     printf("\n1.ENTER YOUR NAME : ");
+     scanf("%s",name);
+     printf("\n2.ENTER YOUR EMAIL-ID : ");
+     scanf("%s",email);
+     printf("\n3.ENTER YOUR PHONE NUMBER : ");
+     scanf("%s",number);
+     printf("\n4.ENTER YOUR DISTRICT : ");
+     scanf("%s",native);
+     printf("\n5.ENTER YOUR DESTINATION DISTRICT : ");
+     scanf("%s",dest_dist);
+     fp=fopen("epasslst.txt","a");
+     fprintf(fp,"%d.%s",num,name);
+     fprintf(fp,"\n");
+     fprintf(fp,"%s",email);
+     fprintf(fp,"\n");
+     fprintf(fp,"%s",number);
+     fprintf(fp,"\n");
+     fprintf(fp,"%s",native);
+     fprintf(fp,"\n");
+     fprintf(fp,"%s",dest_dist);
+     fprintf(fp,"\n");
+     fclose(fp);
+     num++;
+}
+int GET_DIST(int state)
+{
+    switch(state)
+    {
+	case 1:
+		printf("\n\t\t\tSTATE 1 : TAMIL NADU\n");
+		printf("--------------------------------------------------------------------------------");
+		printf("\n1.MADURAI\n2.NAGAPATTINAM\n3.COIMBATORE\n");
+		printf("--------------------------------------------------------------------------------");
+		printf("\nENTER A DISTRICT ID : ");
+		scanf("%d",&dist);
+		return(dist);
+
+	case 2:
+		printf("\n\t\t\tSTATE 2 : KERALA\n");
+		printf("--------------------------------------------------------------------------------");
+		printf("\n1.ERNAKUALM\n2.ALAPPUZHA\n3.KOLLAM\n");
+		printf("--------------------------------------------------------------------------------");
+		printf("\nENTER A DISTRICT ID : ");
+		scanf("%d",&dist);
+		return(dist);
+
+	case 3:
+		printf("\n\t\t\tSTATE 3 : KARNATAKA\n");
+		printf("--------------------------------------------------------------------------------");
+		printf("\n1.KOLAR\n2.BAGALKOT\n3.BELAGARI\n");
+		printf("--------------------------------------------------------------------------------");
+		printf("\nENTER A DISTRICT ID : ");
+		scanf("%d",&dist);
+		return(dist);
+
+	default:
+		printf("\n ENTER A VALID DISTRICT ID FROM 1-3");
+		getch();
+
+		dist=GET_DIST(state);
+		return(0);
+    }
+}
+void GET_INFO(void)
+{
+   int temp;
+   printf("\n ENTER THE NUMBER OF PATIENTS RECORDED IN LEVEL 1 : ");
+   scanf("%d",&lvl1);
+   printf("\n ENTER THE NUMBER OF PATIENTS RECORDED IN LEVEL 2 : ");
+   scanf("%d",&lvl2);
+   printf("\n ENTER THE NUMBER OF PATIENTS RECORDED IN LEVEL 3 : ");
+   scanf("%d",&lvl3);
+   printf("\n ENTER THE NUMBER OF PATIENTS CURED : ");
+   scanf("%d",&cured);
+   printf("\n ENTER THE NUMBER OF PATIENTS DEAD : ");
+   scanf("%d",&death);
+   printf("\n ENTER THE NUMBER OF VENTILATORS AVAILABLE : ");
+   scanf("%d",&vent);
+   printf("\n ENTER THE POPULATION OF THE DISTRICT : ");
+   scanf("%d",&population);
+   temp=lvl1+lvl2+lvl3;
+   percent=temp*100;
+   percent=percent/(float)population;
+   printf("%f",percent);
+   getch();
+
+}
+void INFO_MESSAGE(void)
+{
+   fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+   printf("\n THE NUMBER OF PATIENTS IN LEVEL 1 ARE : %d",lvl1);
+   printf("\n THE NUMBER OF PATIENTS IN LEVEL 2 ARE : %d",lvl2);
+   printf("\n THE NUMBER OF PATIENTS IN LEVEL 3 ARE : %d",lvl3);
+   printf("\n THE NUMBER OF PATIENTS RECOVERED ARE : %d",cured);
+   printf("\n THE NUMBER OF PATIENTS DEAD ARE : %d",death);
+   printf("\n THE NUMBER OF VENTILATORS IS : %d\n",vent);
+   printf("\n THE POPULATION OF THE DISTRICT IS : %d\n",population);
+   printf("\n THE PERCENTAGE OF AFFECTED PATIENTS IN THE DISTRICT IS : %.2f\n",percent);
+   printf("--------------------------------------------------------------------------------");
+
+}
+int INFO_PRINT(void)
+{
+
+    clrscr();
+    printf("--------------------------------------------------------------------------------");
+    printf("1.TAMILNADU\n2.KERALA\n3.KARNATAKA\n");
+    printf("--------------------------------------------------------------------------------");
+    printf("ENTER STATE ID: ");
+    scanf("%d",&state);
+    return state;
+
+}
+void FILE_WRITE_DATA(void)
+{
+      fprintf(fp,"%d",lvl1);
+      fprintf(fp,"\n");
+      fprintf(fp,"%d",lvl2);
+      fprintf(fp,"\n");
+      fprintf(fp,"%d",lvl3);
+      fprintf(fp,"\n");
+      fprintf(fp,"%d",cured);
+      fprintf(fp,"\n");
+      fprintf(fp,"%d",death);
+      fprintf(fp,"\n");
+      fprintf(fp,"%d",vent);
+      fprintf(fp,"\n");
+      fprintf(fp,"%d",population);
+      fprintf(fp,"\n");
+      fprintf(fp,"%f",percent);
+}
+
+void EPASS(void)
+{
+    int from_state,to_state,from_dist,to_dist;
+    printf("\n\t\t\t   E-PASS ELIGIBILITY TESTING");
+    from_state=INFO_PRINT();
+    switch(from_state)
+    {
+	case 1:
+		from_dist=GET_DIST(1);
+		switch(from_dist)
+		{
+			case 1:
+				fp=fopen("madurai.txt","r");
+				fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+				fclose(fp);
+				if(percent<25.0)
+				{
+				   printf("\n     THE PERCENT OF AFFECTED PATIENTS IN MADURAI IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+				   printf("\n\t    THUS THE E-PASS TO THE CITIZENS OF MADURAI IS PERMISSIBLE");
+				   printf("\n\t\t ENTER THE STATE ID OF YOUR DESTINATION DISTRICT");
+				   getch();
+				   to_state=INFO_PRINT();
+				   switch(to_state)
+				   {
+					case 1:
+						to_dist=GET_DIST(1);
+						switch(to_dist)
+						{
+							case 1:
+								fp=fopen("madurai.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN MADURAI IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t    THUS THE E-PASS TO MADURAI IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO MADURAI IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+
+							case 2:
+								fp=fopen("nagapattinam.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN NAGAPATTINAM IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t\tTHUS THE E-PASS TO NAGAPATTINAM IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO NAGAPATTINAM IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+
+							case 3:
+								fp=fopen("coimbatore.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN COIMBATORE IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t\t THUS THE E-PASS TO COIMBATORE IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO COIMBATORE IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+						}
+						break;
+
+					case 2:
+						to_dist=GET_DIST(to_state);
+						switch(to_dist)
+						{
+							case 1:
+								fp=fopen("ernakulam.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN ERNAKULAM IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t    THUS THE E-PASS TO ERNAKULAM IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO ERNAKULAM IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+
+							case 2:
+								fp=fopen("alappuzha.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN ALAPPUZHA IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t\tTHUS THE E-PASS TO ALAPPUZHA IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO ALAPPUZHA IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+
+							case 3:
+								fp=fopen("kollam.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN KOLLAM IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t\t THUS THE E-PASS TO KOLLAM IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO KOLLAM IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+
+
+						}
+						break;
+					case 3:
+						to_dist=GET_DIST(to_state);
+						switch(to_dist)
+						{
+							case 1:
+								fp=fopen("kolar.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN KOLAR IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t    THUS THE E-PASS TO KOLAR IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO KOLAR IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+
+							case 2:
+								fp=fopen("bagalkot.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN BAGALKOT IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t\tTHUS THE E-PASS TO BAGALKOT IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO BAGALKOT IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+
+							case 3:
+								fp=fopen("belagari.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN BELAGARI IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t\t THUS THE E-PASS TO BELAGARI IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO BELAGARI IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+
+						}
+						break;
+				   }
+				}
+
+				else
+				{
+					printf("\nTHE PERCENT OF AFFETCED PATIENTS IS %.2f WHICH IS MORE THAN 25 PERCENT",percent);
+					printf("\n THUS E-PASS TO THE CITIZENS OF MADURAI IS DENIED");
+					getch();
+				}
+				break;
+			case 2:
+				fp=fopen("nagapattinam.txt","r");
+				fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+				fclose(fp);
+				if(percent<25.0)
+				{
+				   printf("\n     THE PERCENT OF AFFECTED PATIENTS IN NAGAPATTINAM IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+				   printf("\n\t    THUS THE E-PASS TO THE CITIZENS OF NAGAPATTINAM IS PERMISSIBLE");
+				   printf("\n\t\t ENTER THE STATE ID OF YOUR DESTINATION DISTRICT");
+				   getch();
+				   to_state=INFO_PRINT();
+				   switch(to_state)
+				   {
+					case 1:
+						to_dist=GET_DIST(to_state);
+						switch(to_dist)
+						{
+							case 1:
+								fp=fopen("madurai.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN MADURAI IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t    THUS THE E-PASS TO MADURAI IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO MADURAI IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+
+							case 2:
+								fp=fopen("nagapattinam.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN NAGAPATTINAM IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t\tTHUS THE E-PASS TO NAGAPATTINAM IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO NAGAPATTINAM IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+
+							case 3:
+								fp=fopen("coimbatore.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN COIMBATORE IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t\t THUS THE E-PASS TO COIMBATORE IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO COIMBATORE IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+
+						}
+						break;
+					case 2:
+						to_dist=GET_DIST(to_state);
+						switch(to_dist)
+						{
+							case 1:
+								fp=fopen("ernakulam.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN ERNAKULAM IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t    THUS THE E-PASS TO ERNAKULAM IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO ERNAKULAM IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+
+							case 2:
+								fp=fopen("alappuzha.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN ALAPPUZHA IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t\tTHUS THE E-PASS TO ALAPPUZHA IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO ALAPPUZHA IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+
+							case 3:
+								fp=fopen("kollam.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN KOLLAM IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t\t THUS THE E-PASS TO KOLLAM IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %.2f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO KOLLAM IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+
+
+						}
+						break;
+					case 3:
+						to_dist=GET_DIST(to_state);
+						switch(to_dist)
+						{
+							case 1:
+								fp=fopen("kolar.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN KOLAR IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t    THUS THE E-PASS TO KOLAR IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO KOLAR IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+							case 2:
+								fp=fopen("bagalkot.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN BAGALKOT IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t\tTHUS THE E-PASS TO BAGALKOT IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO BAGALKOT IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+
+							case 3:
+								fp=fopen("belagari.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN BELAGARI IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t\t THUS THE E-PASS TO BELAGARI IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO BELAGARI IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+						}
+						break;
+				   }
+			       }
+			       else
+			       {
+					printf("\nTHE PERCENT OF AFFETCED PATIENTS IS %.2f WHICH IS MORE THAN 25 PERCENT",percent);
+					printf("\n THUS E-PASS TO THE CITIZENS OF NAGAPATTINAM IS DENIED");
+					getch();
+			       }
+			       break;
+			case 3:
+				fp=fopen("coimbatore.txt","r");
+				fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+				fclose(fp);
+				if(percent<25.0)
+				{
+				   printf("\n     THE PERCENT OF AFFECTED PATIENTS IN COIMBATORE IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+				   printf("\n\t    THUS THE E-PASS TO THE CITIZENS OF COIMBATORE IS PERMISSIBLE");
+				   printf("\n\t\t ENTER THE STATE ID OF YOUR DESTINATION DISTRICT");
+				   getch();
+				   to_state=INFO_PRINT();
+				   switch(to_state)
+				   {
+					case 1:
+						to_dist=GET_DIST(to_state);
+						switch(to_dist)
+						{
+							case 1:
+								fp=fopen("madurai.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN MADURAI IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t    THUS THE E-PASS TO MADURAI IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO MADURAI IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+
+							case 2:
+								fp=fopen("nagapattinam.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN NAGAPATTINAM IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t\tTHUS THE E-PASS TO NAGAPATTINAM IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO NAGAPATTINAM IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+
+							case 3:
+								fp=fopen("coimbatore.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN COIMBATORE IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t\t THUS THE E-PASS TO COIMBATORE IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %.2f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO COIMBATORE IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+
+						}
+						break;
+					case 2:
+						to_dist=GET_DIST(to_state);
+						switch(to_dist)
+						{
+							case 1:
+								fp=fopen("ernakulam.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN ERNAKULAM IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t    THUS THE E-PASS TO ERNAKULAM IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO ERNAKULAM IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+
+							case 2:
+								fp=fopen("alappuzha.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN ALAPPUZHA IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t\tTHUS THE E-PASS TO ALAPPUZHA IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO ALAPPUZHA IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+
+							case 3:
+								fp=fopen("kollam.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN KOLLAM IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t\t THUS THE E-PASS TO KOLLAM IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %.2f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO KOLLAM IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+
+
+						}
+						break;
+					case 3:
+						to_dist=GET_DIST(to_state);
+						switch(to_dist)
+						{
+							case 1:
+								fp=fopen("kolar.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN KOLAR IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t    THUS THE E-PASS TO KOLAR IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO KOLAR IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+							case 2:
+								fp=fopen("bagalkot.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN BAGALKOT IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t\tTHUS THE E-PASS TO BAGALKOT IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO BAGALKOT IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+							case 3:
+								fp=fopen("belagari.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN BELAGARI IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t\t THUS THE E-PASS TO BELAGARI IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO BELAGARI IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+						}
+						break;
+				   }
+			       }
+			       else
+			       {
+					printf("\nTHE PERCENT OF AFFETCED PATIENTS IS %.2f WHICH IS MORE THAN 25 PERCENT",percent);
+					printf("\n THUS E-PASS TO THE CITIZENS OF COIMBATORE IS DENIED");
+					getch();
+			       }
+			       break;
+
+		}
+		break;
+	case 2:
+		from_dist=GET_DIST(from_state);
+		switch(from_dist)
+		{
+			case 1:
+				fp=fopen("ernakulam.txt","r");
+				fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+				fclose(fp);
+				if(percent<25.0)
+				{
+				   printf("\n     THE PERCENT OF AFFECTED PATIENTS IN ERNAKULAM IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+				   printf("\n\t    THUS THE E-PASS TO THE CITIZENS OF ERNAKULAM IS PERMISSIBLE");
+				   printf("\n\t\t ENTER THE STATE ID OF YOUR DESTINATION DISTRICT");
+				   getch();
+				   to_state=INFO_PRINT();
+				   switch(to_state)
+				   {
+					case 1:
+						to_dist=GET_DIST(to_state);
+						switch(to_dist)
+						{
+							case 1:
+								fp=fopen("madurai.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN MADURAI IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t    THUS THE E-PASS TO MADURAI IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO MADURAI IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+
+							case 2:
+								fp=fopen("nagapattinam.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN NAGAPATTINAM IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t\tTHUS THE E-PASS TO NAGAPATTINAM IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO NAGAPATTINAM IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+
+							case 3:
+								fp=fopen("coimbatore.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN COIMBATORE IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t\t THUS THE E-PASS TO COIMBATORE IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO COIMBATORE IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+						}
+						break;
+					case 2:
+						to_dist=GET_DIST(to_state);
+						switch(to_dist)
+						{
+							case 1:
+								fp=fopen("ernakulam.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN ERNAKULAM IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t    THUS THE E-PASS TO ERNAKULAM IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO ERNAKULAM IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+
+							case 2:
+								fp=fopen("alappuzha.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN ALAPPUZHA IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t\tTHUS THE E-PASS TO ALAPPUZHA IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO ALAPPUZHA IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+
+							case 3:
+								fp=fopen("kollam.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN KOLLAM IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t\t THUS THE E-PASS TO KOLLAM IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO KOLLAM IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+
+						}
+						break;
+					case 3:
+						to_dist=GET_DIST(to_state);
+						switch(to_dist)
+						{
+							case 1:
+								fp=fopen("kolar.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN KOLAR IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t    THUS THE E-PASS TO KOLAR IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO KOLAR IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+							case 2:
+								fp=fopen("bagalkot.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN BAGALKOT IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t\tTHUS THE E-PASS TO BAGALKOT IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO BAGALKOT IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+							case 3:
+								fp=fopen("belagari.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN BELAGARI IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t\t THUS THE E-PASS TO BELAGARI IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO BELAGARI IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+						}
+						break;
+				   }
+			       }
+			       else
+			       {
+					printf("\nTHE PERCENT OF AFFETCED PATIENTS IS %.2f WHICH IS MORE THAN 25 PERCENT",percent);
+					printf("\N THUS E-PASS TO THE CITIZENS OF ERNAKULAM IS DENIED");
+					getch();
+			       }
+			       break;
+			case 2:
+				fp=fopen("alappuzha.txt","r");
+				fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+				fclose(fp);
+				if(percent<25.0)
+				{
+				   printf("\n     THE PERCENT OF AFFECTED PATIENTS IN ALAPPUZHA IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+				   printf("\n\t    THUS THE E-PASS TO THE CITIZENS OF ALAPPUZHA IS PERMISSIBLE");
+				   printf("\n\t\t ENTER THE STATE ID OF YOUR DESTINATION DISTRICT");
+				   getch();
+				   to_state=INFO_PRINT();
+				   switch(to_state)
+				   {
+					case 1:
+						to_dist=GET_DIST(to_state);
+						switch(to_dist)
+						{
+							case 1:
+								fp=fopen("madurai.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN MADURAI IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t    THUS THE E-PASS TO MADURAI IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO MADURAI IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+							case 2:
+								fp=fopen("nagapattinam.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN NAGAPATTINAM IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t\tTHUS THE E-PASS TO NAGAPATTINAM IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO NAGAPATTINAM IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+							case 3:
+								fp=fopen("coimbatore.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN COIMBATORE IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t\t THUS THE E-PASS TO COIMBATORE IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %.2f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO COIMBATORE IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+						}
+						break;
+					case 2:
+						to_dist=GET_DIST(to_state);
+						switch(to_dist)
+						{
+							case 1:
+								fp=fopen("ernakulam.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN ERNAKULAM IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t    THUS THE E-PASS TO ERNAKULAM IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO ERNAKULAM IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+
+							case 2:
+								fp=fopen("alappuzha.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN ALAPPUZHA IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t\tTHUS THE E-PASS TO ALAPPUZHA IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %.2f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO ALAPPUZHA IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+							case 3:
+								fp=fopen("kollam.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN KOLLAM IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t\t THUS THE E-PASS TO KOLLAM IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %.2f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO KOLLAM IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+
+
+						}
+						break;
+					case 3:
+						to_dist=GET_DIST(to_state);
+						switch(to_dist)
+						{
+							case 1:
+								fp=fopen("kolar.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN KOLAR IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t    THUS THE E-PASS TO KOLAR IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO KOLAR IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+							case 2:
+								fp=fopen("bagalkot.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN BAGALKOT IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t\tTHUS THE E-PASS TO BAGALKOT IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %.2f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO BAGALKOT IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+							case 3:
+								fp=fopen("belagari.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN BELAGARI IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t\t THUS THE E-PASS TO BELAGARI IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %.2f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO BELAGARI IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+						}
+						break;
+				   }
+			       }
+			       else
+			       {
+					printf("\nTHE PERCENT OF AFFETCED PATIENTS IS %.2f WHICH IS MORE THAN 25 PERCENT",percent);
+					printf("\n THUS E-PASS TO THE CITIZENS OF ALAPPUZHA IS DENIED");
+					getch();
+			       }
+			       break;
+			case 3:
+				fp=fopen("kollam.txt","r");
+				fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+				fclose(fp);
+				if(percent<25.0)
+				{
+				   printf("\n     THE PERCENT OF AFFECTED PATIENTS IN KOLLAM IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+				   printf("\n\t    THUS THE E-PASS TO THE CITIZENS OF KOLLAM IS PERMISSIBLE");
+				   printf("\n\t\t ENTER THE STATE ID OF YOUR DESTINATION DISTRICT");
+				   getch();
+				   to_state=INFO_PRINT();
+				   switch(to_state)
+				   {
+					case 1:
+						to_dist=GET_DIST(to_state);
+						switch(to_dist)
+						{
+							case 1:
+								fp=fopen("madurai.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN MADURAI IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t    THUS THE E-PASS TO MADURAI IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO MADURAI IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+
+							case 2:
+								fp=fopen("nagapattinam.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN NAGAPATTINAM IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t\tTHUS THE E-PASS TO NAGAPATTINAM IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %.2f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO NAGAPATTINAM IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+
+							case 3:
+								fp=fopen("coimbatore.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN COIMBATORE IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t\t THUS THE E-PASS TO COIMBATORE IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %.2f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO COIMBATORE IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+
+						}
+						break;
+					case 2:
+						to_dist=GET_DIST(to_state);
+						switch(to_dist)
+						{
+							case 1:
+								fp=fopen("ernakulam.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN ERNAKULAM IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t    THUS THE E-PASS TO ERNAKULAM IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO ERNAKULAM IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+
+							case 2:
+								fp=fopen("alappuzha.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN ALAPPUZHA IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t\tTHUS THE E-PASS TO ALAPPUZHA IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO ALAPPUZHA IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+
+							case 3:
+								fp=fopen("kollam.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN KOLLAM IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t\t THUS THE E-PASS TO KOLLAM IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %.2f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO KOLLAM IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+
+
+						}
+						break;
+					case 3:
+						to_dist=GET_DIST(to_state);
+						switch(to_dist)
+						{
+							case 1:
+								fp=fopen("kolar.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN KOLAR IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t    THUS THE E-PASS TO KOLAR IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %.2f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO KOLAR IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+
+							case 2:
+								fp=fopen("bagalkot.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN BAGALKOT IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t\tTHUS THE E-PASS TO BAGALKOT IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO BAGALKOT IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+
+							case 3:
+								fp=fopen("belagari.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN BELAGARI IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t\t THUS THE E-PASS TO BELAGARI IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO BELAGARI IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+						}
+						break;
+				   }
+			       }
+			       else
+			       {
+					printf("\nTHE PERCENT OF AFFETCED PATIENTS IS %.2f WHICH IS MORE THAN 25 PERCENT",percent);
+					printf("\n THUS E-PASS TO THE CITIZENS OF KOLLAM IS DENIED");
+					getch();
+			       }
+			       break;
+
+		}
+		break;
+
+	case 3:
+	       from_dist=GET_DIST(from_state);
+		switch(from_dist)
+		{
+			case 1:
+				fp=fopen("kolar.txt","r");
+				fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+				fclose(fp);
+				if(percent<25.0)
+				{
+				   printf("\n     THE PERCENT OF AFFECTED PATIENTS IN KOLAR IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+				   printf("\n\t    THUS THE E-PASS TO THE CITIZENS OF KOLAR IS PERMISSIBLE");
+				   printf("\n\t\t ENTER THE STATE ID OF YOUR DESTINATION DISTRICT");
+				   getch();
+				   to_state=INFO_PRINT();
+				   switch(to_state)
+				   {
+					case 1:
+						to_dist=GET_DIST(to_state);
+						switch(to_dist)
+						{
+							case 1:
+								fp=fopen("madurai.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN MADURAI IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t    THUS THE E-PASS TO MADURAI IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO MADURAI IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+
+							case 2:
+								fp=fopen("nagapattinam.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN NAGAPATTINAM IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t\tTHUS THE E-PASS TO NAGAPATTINAM IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO NAGAPATTINAM IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+
+							case 3:
+								fp=fopen("coimbatore.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN COIMBATORE IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t\t THUS THE E-PASS TO COIMBATORE IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %.2f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO COIMBATORE IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+						}
+						break;
+					case 2:
+						to_dist=GET_DIST(to_state);
+						switch(to_dist)
+						{
+							case 1:
+								fp=fopen("ernakulam.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN ERNAKULAM IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t    THUS THE E-PASS TO ERNAKULAM IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %.2f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO ERNAKULAM IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+
+							case 2:
+								fp=fopen("alappuzha.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN ALAPPUZHA IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t\tTHUS THE E-PASS TO ALAPPUZHA IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO ALAPPUZHA IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+
+							case 3:
+								fp=fopen("kollam.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN KOLLAM IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t\t THUS THE E-PASS TO KOLLAM IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %.2f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO KOLLAM IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+
+						}
+						break;
+					case 3:
+						to_dist=GET_DIST(to_state);
+						switch(to_dist)
+						{
+							case 1:
+								fp=fopen("kolar.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN KOLAR IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t    THUS THE E-PASS TO KOLAR IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %.2f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO KOLAR IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+
+							case 2:
+								fp=fopen("bagalkot.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN BAGALKOT IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t\tTHUS THE E-PASS TO BAGALKOT IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %.2f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO BAGALKOT IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+
+							case 3:
+								fp=fopen("belagari.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN BELAGARI IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t\t THUS THE E-PASS TO BELAGARI IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %.2f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO BELAGARI IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+						}
+						break;
+				   }
+			       }
+			       else
+			       {
+					printf("\nTHE PERCENT OF AFFETCED PATIENTS IS %.2f WHICH IS MORE THAN 25 PERCENT",percent);
+					printf("\N THUS E-PASS TO THE CITIZENS OF KOLAR IS DENIED");
+					getch();
+			       }
+			       break;
+			case 2:
+				fp=fopen("bagalkot.txt","r");
+				fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+				fclose(fp);
+				if(percent<25.0)
+				{
+				   printf("\n     THE PERCENT OF AFFECTED PATIENTS IN BAGALKOT IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+				   printf("\n\t    THUS THE E-PASS TO THE CITIZENS OF BAGALKOT IS PERMISSIBLE");
+				   printf("\n\t\t ENTER THE STATE ID OF YOUR DESTINATION DISTRICT");
+				   getch();
+				   to_state=INFO_PRINT();
+				   switch(to_state)
+				   {
+					case 1:
+						to_dist=GET_DIST(to_state);
+						switch(to_dist)
+						{
+							case 1:
+								fp=fopen("madurai.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN MADURAI IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t    THUS THE E-PASS TO MADURAI IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %.2f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO MADURAI IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+
+							case 2:
+								fp=fopen("nagapattinam.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN NAGAPATTINAM IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t\tTHUS THE E-PASS TO NAGAPATTINAM IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %.2f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO NAGAPATTINAM IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+
+							case 3:
+								fp=fopen("coimbatore.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN COIMBATORE IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t\t THUS THE E-PASS TO COIMBATORE IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %.2f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO COIMBATORE IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+
+						}
+						break;
+					case 2:
+						to_dist=GET_DIST(to_state);
+						switch(to_dist)
+						{
+							case 1:
+								fp=fopen("ernakulam.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN ERNAKULAM IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t    THUS THE E-PASS TO ERNAKULAM IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO ERNAKULAM IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+
+							case 2:
+								fp=fopen("alappuzha.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN ALAPPUZHA IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t\tTHUS THE E-PASS TO ALAPPUZHA IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %.2f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO ALAPPUZHA IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+
+							case 3:
+								fp=fopen("kollam.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN KOLLAM IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t\t THUS THE E-PASS TO KOLLAM IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %.2f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO KOLLAM IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+
+
+						}
+						break;
+					case 3:
+						to_dist=GET_DIST(to_state);
+						switch(to_dist)
+						{
+							case 1:
+								fp=fopen("kolar.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN KOLAR IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t    THUS THE E-PASS TO KOLAR IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO KOLAR IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+
+							case 2:
+								fp=fopen("bagalkot.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN BAGALKOT IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t\tTHUS THE E-PASS TO BAGALKOT IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO BAGALKOT IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+
+							case 3:
+								fp=fopen("belagari.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN BELAGARI IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t\t THUS THE E-PASS TO BELAGARI IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %.2f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO BELAGARI IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+						}
+						break;
+				   }
+			       }
+			       else
+			       {
+					printf("\nTHE PERCENT OF AFFETCED PATIENTS IS %.2f WHICH IS MORE THAN 25 PERCENT",percent);
+					printf("\n THUS E-PASS TO THE CITIZENS OF BAGALKOT IS DENIED");
+					getch();
+			       }
+			       break;
+			case 3:
+				fp=fopen("belagari.txt","r");
+				fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+				fclose(fp);
+				if(percent<25.0)
+				{
+				   printf("\n     THE PERCENT OF AFFECTED PATIENTS IN BELAGARI IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+				   printf("\n\t    THUS THE E-PASS TO THE CITIZENS OF BELAGARI IS PERMISSIBLE");
+				   printf("\n\t\t ENTER THE STATE ID OF YOUR DESTINATION DISTRICT");
+				   getch();
+				   to_state=INFO_PRINT();
+				   switch(to_state)
+				   {
+					case 1:
+						to_dist=GET_DIST(to_state);
+						switch(to_dist)
+						{
+							case 1:
+								fp=fopen("madurai.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN MADURAI IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t    THUS THE E-PASS TO MADURAI IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %.2f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO MADURAI IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+
+							case 2:
+								fp=fopen("nagapattinam.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN NAGAPATTINAM IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t\tTHUS THE E-PASS TO NAGAPATTINAM IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %.2f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO NAGAPATTINAM IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+
+							case 3:
+								fp=fopen("coimbatore.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN COIMBATORE IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t\t THUS THE E-PASS TO COIMBATORE IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %.2f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO COIMBATORE IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+
+						}
+						break;
+					case 2:
+						to_dist=GET_DIST(to_state);
+						switch(to_dist)
+						{
+							case 1:
+								fp=fopen("ernakulam.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN ERNAKULAM IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t    THUS THE E-PASS TO ERNAKULAM IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %.2f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO ERNAKULAM IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+							case 2:
+								fp=fopen("alappuzha.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN ALAPPUZHA IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t\tTHUS THE E-PASS TO ALAPPUZHA IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %.2f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO ALAPPUZHA IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+							case 3:
+								fp=fopen("kollam.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN KOLLAM IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t\t THUS THE E-PASS TO KOLLAM IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %.2f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO KOLLAM IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+
+						}
+						break;
+					case 3:
+						to_dist=GET_DIST(to_state);
+						switch(to_dist)
+						{
+							case 1:
+								fp=fopen("kolar.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN KOLAR IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t    THUS THE E-PASS TO KOLAR IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %.2f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO KOLAR IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+
+							case 2:
+								fp=fopen("bagalkot.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN BAGALKOT IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t\tTHUS THE E-PASS TO BAGALKOT IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %.2f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO BAGALKOT IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+
+							case 3:
+								fp=fopen("belagari.txt","r");
+								fscanf(fp,"%d %d %d %d %d %d %d %f",&lvl1,&lvl2,&lvl3,&cured,&death,&vent,&population,&percent);
+								fclose(fp);
+								if(percent<25.0)
+								{
+									printf("\n     THE PERCENT OF AFFECTED PATIENTS IN BELAGARI IS %.2f WHICH IS LESS THAN 25 PERCENT",percent);
+									printf("\n\t\t\t THUS THE E-PASS TO BELAGARI IS PERMISSIBLE");
+									printf("\n\t\t\t  PLEASE FILL THE E-PASS FORM");
+									getch();
+									E_PASS_FORM();
+								}
+								else
+								{
+									printf("\n     THE PERCENT OF AFFECTED IS %.2f WHICH IS MORE THAN 25 PERCENT",percent);
+									printf("\n\t\t THUS E-PASS TO BELAGARI IS NOT PERMISSIBLE");
+									getch();
+									EPASS();
+
+								}
+								break;
+						}
+						break;
+				   }
+			       }
+			       else
+			       {
+					printf("\nTHE PERCENT OF AFFETCED PATIENTS IS %.2f WHICH IS MORE THAN 25 PERCENT",percent);
+					printf("\n THUS E-PASS TO THE CITIZENS OF BELAGARI IS DENIED");
+					getch();
+			       }
+			       break;
+
+		}
+
+    }
+
+}
+void BAR_CHART(int arr[3][5],int key)
+{
+
+    int gd=DETECT,gm;
+    int x_bottom,x_top,y_top,y_bottom,pat,col,i,j;
+    int bar_outline_x1,bar_outline_y1,bar_outline_x,bar_outline_y;
+    int pattern[5]={1,7,10,9,11};
+    int color[5]={1,4,2,5,6};
+    clrscr();
+    initgraph(&gd,&gm,"C:\\TURBOC3\\BGI");
+    setcolor(YELLOW);
+    rectangle(0,30,639,450);
+    setlinestyle(SOLID_LINE,0,2);
+    line(100,420,100,60);
+    line(100,420,600,420);
+    line(90,70,100,60);
+    line(110,70,100,60);
+    line(590,410,600,420);
+    line(590,430,600,420);
+    settextstyle(SMALL_FONT,HORIZ_DIR,5);
+    outtextxy(530,100,"KEY");
+    outtextxy(500,120,"1.BLUE - LEVEL1");
+    outtextxy(500,140,"2.RED - LEVEL2");
+    outtextxy(500,160,"3.GREEN - LEVEL3");
+    outtextxy(500,180,"4.MAGENTA - CURED");
+    outtextxy(500,200,"5.BROWN - DEATHS");
+
+    settextstyle(SANS_SERIF_FONT,HORIZ_DIR,2);
+    outtextxy(95,35,"Y");
+    outtextxy(610,405,"X");
+    outtextxy(85,415,"0");
+    outtextxy(70,360,"60");
+    outtextxy(55,300,"120");
+    outtextxy(55,240,"180");
+    outtextxy(55,180,"240");
+    outtextxy(55,120,"300");
+    switch(key)
+    {
+       case 1:
+
+		outtextxy(125,425,"TAMILNADU");
+		outtextxy(275,425,"KERALA");
+		outtextxy(425,425,"KARNATAKA");
+		settextstyle(SANS_SERIF_FONT,HORIZ_DIR,2);
+		setcolor(WHITE);
+		outtextxy(200,0,"STATE COMPARISON BAR CHART");
+		break;
+       case 2:
+		outtextxy(125,425,"MADURAI");
+		outtextxy(275,425,"NAGAPATTINAM");
+		outtextxy(425,425,"COIMBATORE");
+		settextstyle(SANS_SERIF_FONT,HORIZ_DIR,2);
+		setcolor(WHITE);
+		outtextxy(197,0,"DISTRICT COMPARISON BAR CHART");
+		break;
+       case 3:
+		outtextxy(125,425,"ERNAKULAM");
+		outtextxy(275,425,"ALAPPUZHA");
+		outtextxy(425,425,"KOLLAM");
+		settextstyle(SANS_SERIF_FONT,HORIZ_DIR,2);
+		setcolor(WHITE);
+		outtextxy(197,0,"DISTRICT COMPARISON BAR CHART");
+		break;
+       case 4:
+		outtextxy(125,425,"KOLAR");
+		outtextxy(275,425,"BAGALKOT");
+		outtextxy(425,425,"BELAGARI");
+		settextstyle(SANS_SERIF_FONT,HORIZ_DIR,2);
+		setcolor(WHITE);
+		outtextxy(197,0,"DISTRICT COMPARISON BAR CHART");
+		break;
+    }
+
+
+    x_top=150;
+    for(j=0;j<3;j++)
+    {
+	pat=pattern[0];
+	col=color[0];
+	setfillstyle(pat,col);
+	if(j>0)
+	    x_top=x_top+150;
+	y_top=420-arr[j][0];
+	x_bottom=x_top+50;
+	y_bottom=419;
+	bar_outline_x=x_top;
+	bar_outline_y=y_bottom;
+	bar(x_top,y_top,x_bottom,y_bottom);
+	setcolor(YELLOW);
+	setlinestyle(SOLID_LINE,0,3);
+	line(x_top,y_top,x_bottom,y_top);
+	for(i=1;i<=4;i++)
+	{
+		y_bottom=y_top-1;
+		y_top=y_top-arr[j][i];
+		col=color[i];
+		pat=pattern[i];
+		setfillstyle(pat,col);
+		bar(x_top,y_top,x_bottom,y_bottom);
+		setcolor(YELLOW);
+		setlinestyle(SOLID_LINE,0,3);
+		line(x_top,y_top,x_bottom,y_top);
+	}
+	bar_outline_x1=x_top;
+	bar_outline_y1=y_top;
+	line(bar_outline_x,bar_outline_y,bar_outline_x1,bar_outline_y1);
+	bar_outline_x=bar_outline_x1;
+	bar_outline_y=bar_outline_y1;
+	bar_outline_x1=x_bottom;
+	line(bar_outline_x,bar_outline_y,bar_outline_x1,bar_outline_y1);
+	bar_outline_x=bar_outline_x1;
+	bar_outline_y=bar_outline_y1;
+	bar_outline_x1=x_bottom;
+	bar_outline_y1=419;
+	line(bar_outline_x,bar_outline_y,bar_outline_x1,bar_outline_y1);
+
+    }
+    getch();
+    clrscr();
+}
+
+void STATE_BAR_CHART(void)
+{
+   int tot_lvl1=0,tot_lvl2=0,tot_lvl3=0,tot_cured=0,tot_death=0;
+   int array[3][5];
+   fp=fopen("madurai.txt","r");
+   if(fp==NULL)
+      printf("\n REQUEST FOR OPENING THE FILE MADURAI IS DECLINED");
+   else
+   {
+      fscanf(fp,"%d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death);
+      tot_lvl1=tot_lvl1+lvl1;
+      tot_lvl2=tot_lvl2+lvl2;
+      tot_lvl3=tot_lvl3+lvl3;
+      tot_cured=tot_cured+cured;
+      tot_death=tot_death+death;
+      fclose(fp);
+   }
+   fp=fopen("nagapattinam.txt","r");
+   if(fp==NULL)
+      printf("\n REQUEST FOR OPENING THE FILE NAGAPATTINAM IS DECLINED");
+   else
+   {
+      fscanf(fp,"%d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death);
+      tot_lvl1=tot_lvl1+lvl1;
+      tot_lvl2=tot_lvl2+lvl2;
+      tot_lvl3=tot_lvl3+lvl3;
+      tot_cured=tot_cured+cured;
+      tot_death=tot_death+death;
+      fclose(fp);
+   }
+   fp=fopen("coimbatore.txt","r");
+   if(fp==NULL)
+      printf("\n REQUEST FOR OPENING THE FILE COIMBATORE IS DECLINED");
+   else
+   {
+      fscanf(fp,"%d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death);
+      tot_lvl1=tot_lvl1+lvl1;
+      tot_lvl2=tot_lvl2+lvl2;
+      tot_lvl3=tot_lvl3+lvl3;
+      tot_cured=tot_cured+cured;
+      tot_death=tot_death+death;
+      fclose(fp);
+   }
+   array[0][0]=tot_lvl1;
+   array[0][1]=tot_lvl2;
+   array[0][2]=tot_lvl3;
+   array[0][3]=tot_cured;
+   array[0][4]=tot_death;
+   tot_lvl1=0;
+   tot_lvl2=0;
+   tot_lvl3=0;
+   tot_cured=0;
+   tot_death=0;
+   fp=fopen("ernakulam.txt","r");
+   if(fp==NULL)
+      printf("\n REQUEST FOR OPENING THE FILE ERNAKULAM IS DECLINED");
+   else
+   {
+      fscanf(fp,"%d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death);
+      tot_lvl1=tot_lvl1+lvl1;
+      tot_lvl2=tot_lvl2+lvl2;
+      tot_lvl3=tot_lvl3+lvl3;
+      tot_cured=tot_cured+cured;
+      tot_death=tot_death+death;
+      fclose(fp);
+   }
+   fp=fopen("alappuzha.txt","r");
+   if(fp==NULL)
+      printf("\n REQUEST FOR OPENING THE FILE ALAPPUZHA IS DECLINED");
+   else
+   {
+      fscanf(fp,"%d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death);
+      tot_lvl1=tot_lvl1+lvl1;
+      tot_lvl2=tot_lvl2+lvl2;
+      tot_lvl3=tot_lvl3+lvl3;
+      tot_cured=tot_cured+cured;
+      tot_death=tot_death+death;
+      fclose(fp);
+   }
+   fp=fopen("kollam.txt","r");
+   if(fp==NULL)
+      printf("\n REQUEST FOR OPENING THE FILE KOLLAM IS DECLINED");
+   else
+   {
+      fscanf(fp,"%d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death);
+      tot_lvl1=tot_lvl1+lvl1;
+      tot_lvl2=tot_lvl2+lvl2;
+      tot_lvl3=tot_lvl3+lvl3;
+      tot_cured=tot_cured+cured;
+      tot_death=tot_death+death;
+      fclose(fp);
+   }
+   array[1][0]=tot_lvl1;
+   array[1][1]=tot_lvl2;
+   array[1][2]=tot_lvl3;
+   array[1][3]=tot_cured;
+   array[1][4]=tot_death;
+   tot_lvl1=0;
+   tot_lvl2=0;
+   tot_lvl3=0;
+   tot_cured=0;
+   tot_death=0;
+   fp=fopen("kolar.txt","r");
+   if(fp==NULL)
+      printf("\n REQUEST FOR OPENING THE FILE KOLAR IS DECLINED");
+   else
+   {
+      fscanf(fp,"%d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death);
+      tot_lvl1=tot_lvl1+lvl1;
+      tot_lvl2=tot_lvl2+lvl2;
+      tot_lvl3=tot_lvl3+lvl3;
+      tot_cured=tot_cured+cured;
+      tot_death=tot_death+death;
+      fclose(fp);
+   }
+   fp=fopen("bagalkot.txt","r");
+   if(fp==NULL)
+      printf("\n REQUEST FOR OPENING THE FILE BAGALKOT IS DECLINED");
+   else
+   {
+      fscanf(fp,"%d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death);
+      tot_lvl1=tot_lvl1+lvl1;
+      tot_lvl2=tot_lvl2+lvl2;
+      tot_lvl3=tot_lvl3+lvl3;
+      tot_cured=tot_cured+cured;
+      tot_death=tot_death+death;
+      fclose(fp);
+   }
+   fp=fopen("belagari.txt","r");
+   if(fp==NULL)
+      printf("\n REQUEST FOR OPENING THE FILE BELAGARI IS DECLINED");
+   else
+   {
+      fscanf(fp,"%d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death);
+      tot_lvl1=tot_lvl1+lvl1;
+      tot_lvl2=tot_lvl2+lvl2;
+      tot_lvl3=tot_lvl3+lvl3;
+      tot_cured=tot_cured+cured;
+      tot_death=tot_death+death;
+   }
+   array[2][0]=tot_lvl1;
+   array[2][1]=tot_lvl2;
+   array[2][2]=tot_lvl3;
+   array[2][3]=tot_cured;
+   array[2][4]=tot_death;
+   BAR_CHART(array,1);
+
+}
+
+void DISTRICT_BAR_CHART(void)
+{
+    int array[3][5];
+    state=INFO_PRINT();
+    switch(state)
+    {
+	case 1:
+		fp=fopen("madurai.txt","r");
+		if(fp==NULL)
+		   printf("\n THE REQUEST TO OPEN FILE MADURAI IS DECLINED");
+		else
+		{
+		   fscanf(fp,"%d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death);
+		   array[0][0]=lvl1;
+		   array[0][1]=lvl2;
+		   array[0][2]=lvl3;
+		   array[0][3]=cured;
+		   array[0][4]=death;
+		   fclose(fp);
+		}
+		fp=fopen("nagapattinam.txt","r");
+		if(fp==NULL)
+		   printf("\n THE REQUEST TO OPEN FILE NAGAPATTINAM IS DECLINED");
+		else
+		{
+		   fscanf(fp,"%d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death);
+		   array[1][0]=lvl1;
+		   array[1][1]=lvl2;
+		   array[1][2]=lvl3;
+		   array[1][3]=cured;
+		   array[1][4]=death;
+		   fclose(fp);
+		}
+		fp=fopen("coimbatore.txt","r");
+		if(fp==NULL)
+		   printf("\n THE REQUEST TO OPEN FILE COIMBATORE IS DECLINED");
+		else
+		{
+		   fscanf(fp,"%d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death);
+		   array[2][0]=lvl1;
+		   array[2][1]=lvl2;
+		   array[2][2]=lvl3;
+		   array[2][3]=cured;
+		   array[2][4]=death;
+		   fclose(fp);
+		}
+		BAR_CHART(array,2);
+		break;
+
+
+	case 2:
+		fp=fopen("ernakulam.txt","r");
+		if(fp==NULL)
+		   printf("\n THE REQUEST TO OPEN FILE ERNAKULAM IS DECLINED");
+		else
+		{
+		   fscanf(fp,"%d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death);
+		   array[0][0]=lvl1;
+		   array[0][1]=lvl2;
+		   array[0][2]=lvl3;
+		   array[0][3]=cured;
+		   array[0][4]=death;
+		   fclose(fp);
+		}
+		fp=fopen("alappuzha.txt","r");
+		if(fp==NULL)
+		   printf("\n THE REQUEST TO OPEN FILE ALAPPUZHA IS DECLINED");
+		else
+		{
+		   fscanf(fp,"%d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death);
+		   array[1][0]=lvl1;
+		   array[1][1]=lvl2;
+		   array[1][2]=lvl3;
+		   array[1][3]=cured;
+		   array[1][4]=death;
+		   fclose(fp);
+		}
+		fp=fopen("kollam.txt","r");
+		if(fp==NULL)
+		   printf("\n THE REQUEST TO OPEN FILE KOLLAM IS DECLINED");
+		else
+		{
+		   fscanf(fp,"%d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death);
+		   array[2][0]=lvl1;
+		   array[2][1]=lvl2;
+		   array[2][2]=lvl3;
+		   array[2][3]=cured;
+		   array[2][4]=death;
+		   fclose(fp);
+		}
+		BAR_CHART(array,3);
+		break;
+	case 3:
+		fp=fopen("kolar.txt","r");
+		if(fp==NULL)
+		   printf("\n THE REQUEST TO OPEN FILE KOLAR IS DECLINED");
+		else
+		{
+		   fscanf(fp,"%d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death);
+		   array[0][0]=lvl1;
+		   array[0][1]=lvl2;
+		   array[0][2]=lvl3;
+		   array[0][3]=cured;
+		   array[0][4]=death;
+		   fclose(fp);
+		}
+		fp=fopen("bagalkot.txt","r");
+		if(fp==NULL)
+		   printf("\n THE REQUEST TO OPEN FILE BAGALKOT IS DECLINED");
+		else
+		{
+		   fscanf(fp,"%d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death);
+		   array[1][0]=lvl1;
+		   array[1][1]=lvl2;
+		   array[1][2]=lvl3;
+		   array[1][3]=cured;
+		   array[1][4]=death;
+		   fclose(fp);
+		}
+		fp=fopen("belagari.txt","r");
+		if(fp==NULL)
+		   printf("\n THE REQUEST TO OPEN FILE BELAGARI IS DECLINED");
+		else
+		{
+		   fscanf(fp,"%d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death);
+		   array[2][0]=lvl1;
+		   array[2][1]=lvl2;
+		   array[2][2]=lvl3;
+		   array[2][3]=cured;
+		   array[2][4]=death;
+		   fclose(fp);
+		}
+		BAR_CHART(array,4);
+		break;
+
+	default:
+		printf("\N ENTER A VALID STATE ID BETWEEN 1-3");
+		getch();
+		DISTRICT_BAR_CHART();
+
+    }
+}
 void ASSIGN(void)
 {
-   int lvl1=50,lvl2=20,lvl3=10,cured=20,death=5,vent=20;
-fp=fopen("madurai.txt","w+");
+   int temp;
+   lvl1=20;lvl2=10;lvl3=5;cured=10;death=5;vent=20,population=200;
+   temp=lvl1+lvl2+lvl3;
+   percent=temp*100;
+   percent=percent/(float)population;
+   fp=fopen("epasslst.txt","w");
+   fclose(fp);
+   fp=fopen("madurai.txt","w+");
    if(fp==NULL)
    {
-printf("\n REQUEST FOR OPENING FILE MADURAI IS DECLINED");
+      printf("\n REQUEST FOR OPENING FILE MADURAI IS DECLINED");
    }
    else
    {
-fprintf(fp,"%d",lvl1);
-fprintf(fp,"\n");
-fprintf(fp,"%d",lvl2);
-fprintf(fp,"\n");
-fprintf(fp,"%d",lvl3);
-fprintf(fp,"\n");
-fprintf(fp,"%d",cured);
-fprintf(fp,"\n");
-fprintf(fp,"%d",death);
-fprintf(fp,"\n");
-fprintf(fp,"%d",vent);
-fclose(fp);
+      FILE_WRITE_DATA();
+      fclose(fp);
    }
-fp=fopen("nagapattinam.txt","w+");
+   fp=fopen("nagapattinam.txt","w+");
    if(fp==NULL)
-printf("\n REQUEST FOR OPENING FILE NAGAPATTINAM IS DECLINED");
+     printf("\n REQUEST FOR OPENING FILE NAGAPATTINAM IS DECLINED");
    else
    {
-fprintf(fp,"%d",lvl1);
-fprintf(fp,"\n");
-fprintf(fp,"%d",lvl2);
-fprintf(fp,"\n");
-fprintf(fp,"%d",lvl3);
-fprintf(fp,"\n");
-fprintf(fp,"%d",cured);
-fprintf(fp,"\n");
-fprintf(fp,"%d",death);
-fprintf(fp,"\n");
-fprintf(fp,"%d",vent);
-fclose(fp);
+      FILE_WRITE_DATA();
+      fclose(fp);
    }
-fp=fopen("coimbatore.txt","w+");
+   fp=fopen("coimbatore.txt","w+");
    if(fp==NULL)
-printf("\n REQUEST FOR OPENING FILE COIMBATORE IS DECLINED");
+     printf("\n REQUEST FOR OPENING FILE COIMBATORE IS DECLINED");
    else
    {
-fprintf(fp,"%d",lvl1);
-fprintf(fp,"\n");
-fprintf(fp,"%d",lvl2);
-fprintf(fp,"\n");
-fprintf(fp,"%d",lvl3);
-fprintf(fp,"\n");
-fprintf(fp,"%d",cured);
-fprintf(fp,"\n");
-fprintf(fp,"%d",death);
-fprintf(fp,"\n");
-fprintf(fp,"%d",vent);
-fclose(fp);
+      FILE_WRITE_DATA();
+      fclose(fp);
    }
-fp=fopen("ernakulam.txt","w+");
+   fp=fopen("ernakulam.txt","w+");
    if(fp==NULL)
-printf("\n REQUEST FOR OPENING FILE ERNAKULAM IS DECLINED");
+     printf("\n REQUEST FOR OPENING FILE ERNAKULAM IS DECLINED");
    else
    {
-fprintf(fp,"%d",lvl1);
-fprintf(fp,"\n");
-fprintf(fp,"%d",lvl2);
-fprintf(fp,"\n");
-fprintf(fp,"%d",lvl3);
-fprintf(fp,"\n");
-fprintf(fp,"%d",cured);
-fprintf(fp,"\n");
-fprintf(fp,"%d",death);
-fprintf(fp,"\n");
-fprintf(fp,"%d",vent);
-fclose(fp);
+      FILE_WRITE_DATA();
+      fclose(fp);
    }
-fp=fopen("alappuzha.txt","w+");
+   fp=fopen("alappuzha.txt","w+");
    if(fp==NULL)
-printf("\n REQUEST FOR OPENING FILE ALAPPUZHA IS DECLINED");
+     printf("\n REQUEST FOR OPENING FILE ALAPPUZHA IS DECLINED");
    else
    {
-fprintf(fp,"%d",lvl1);
-fprintf(fp,"\n");
-fprintf(fp,"%d",lvl2);
-fprintf(fp,"\n");
-fprintf(fp,"%d",lvl3);
-fprintf(fp,"\n");
-fprintf(fp,"%d",cured);
-fprintf(fp,"\n");
-fprintf(fp,"%d",death);
-fprintf(fp,"\n");
-fprintf(fp,"%d",vent);
-fclose(fp);
+      FILE_WRITE_DATA();
+      fclose(fp);
    }
-fp=fopen("kollam.txt","w+");
+   fp=fopen("kollam.txt","w+");
    if(fp==NULL)
-printf("\n REQUEST FOR OPENING FILE KOLLAM IS DECLINED");
+     printf("\n REQUEST FOR OPENING FILE KOLLAM IS DECLINED");
    else
    {
-fprintf(fp,"%d",lvl1);
-fprintf(fp,"\n");
-fprintf(fp,"%d",lvl2);
-fprintf(fp,"\n");
-fprintf(fp,"%d",lvl3);
-fprintf(fp,"\n");
-fprintf(fp,"%d",cured);
-fprintf(fp,"\n");
-fprintf(fp,"%d",death);
-fprintf(fp,"\n");
-fprintf(fp,"%d",vent);
-fclose(fp);
+      FILE_WRITE_DATA();
+      fclose(fp);
    }
-fp=fopen("kolar.txt","w+");
+   fp=fopen("kolar.txt","w+");
    if(fp==NULL)
-printf("\n REQUEST FOR OPENING FILE KOLAR IS DECLINED");
+     printf("\n REQUEST FOR OPENING FILE KOLAR IS DECLINED");
    else
    {
-fprintf(fp,"%d",lvl1);
-fprintf(fp,"\n");
-fprintf(fp,"%d",lvl2);
-fprintf(fp,"\n");
-fprintf(fp,"%d",lvl3);
-fprintf(fp,"\n");
-fprintf(fp,"%d",cured);
-fprintf(fp,"\n");
-fprintf(fp,"%d",death);
-fprintf(fp,"\n");
-fprintf(fp,"%d",vent);
-fclose(fp);
+      FILE_WRITE_DATA();
+      fclose(fp);
    }
-fp=fopen("bagalkot.txt","w+");
+   fp=fopen("bagalkot.txt","w+");
    if(fp==NULL)
-printf("\n REQUEST FOR OPENING FILE BAGALKOT IS DECLINED");
+     printf("\n REQUEST FOR OPENING FILE BAGALKOT IS DECLINED");
    else
    {
-fprintf(fp,"%d",lvl1);
-fprintf(fp,"\n");
-fprintf(fp,"%d",lvl2);
-fprintf(fp,"\n");
-fprintf(fp,"%d",lvl3);
-fprintf(fp,"\n");
-fprintf(fp,"%d",cured);
-fprintf(fp,"\n");
-fprintf(fp,"%d",death);
-fprintf(fp,"\n");
-fprintf(fp,"%d",vent);
-fclose(fp);
+      FILE_WRITE_DATA();
+      fclose(fp);
    }
-fp=fopen("belagari.txt","w+");
+   fp=fopen("belagari.txt","w+");
    if(fp==NULL)
-printf("\n REQUEST FOR OPENING FILE BELAGARI IS DECLINED");
+     printf("\n REQUEST FOR OPENING FILE BELAGARI IS DECLINED");
    else
    {
-fprintf(fp,"%d",lvl1);
-fprintf(fp,"\n");
-fprintf(fp,"%d",lvl2);
-fprintf(fp,"\n");
-fprintf(fp,"%d",lvl3);
-fprintf(fp,"\n");
-fprintf(fp,"%d",cured);
-fprintf(fp,"\n");
-fprintf(fp,"%d",death);
-fprintf(fp,"\n");
-fprintf(fp,"%d",vent);
-fclose(fp);
+      FILE_WRITE_DATA();
+      fclose(fp);
    }
 }
 
 
 
 void READDATA (void)
-
 {
-    int state,dist,lvl1,lvl2,lvl3,cured,death,vent;
-clrscr();
-printf("-----------------------------------\n");
-printf("1.TAMILNADU\n2.KERALA\n3.KARNATAKA\n");
-printf("-----------------------------------\n");
-printf("ENTER STATE ID: ");
-scanf("%d",&state);
+    state=INFO_PRINT();
     switch(state)
     {
        case 1 :
-		clrscr();
-		printf("\n------------------------------------");
-		printf("\n\t\t\tSTATE 1 : TAMIL NADU");
-		printf("\n------------------------------------");
-		printf("\n1.MADURAI\n2.NAGAPATTINAM\n3.COIMBATORE");
-		printf("\n---------------------------------------");
-		printf("\n ENTER DISTRICT ID : ");
-		scanf("%d",&dist);
+		dist=GET_DIST(state);
 		switch(dist)
 		{
 		   case 1:
-			clrscr();
-			printf("\t\t\t STATE 1 : TAMILNADU---DISTRICT 1: MADURAI");
-			printf("\n ENTER THE NUMBER OF PATIENTS RECORDED IN LEVEL 1 : ");
-			scanf("%d",&lvl1);
-			printf("\n ENTER THE NUMBER OF PATIENTS RECORDED IN LEVEL 2 : ");
-			scanf("%d",&lvl2);
-			printf("\n ENTER THE NUMBER OF PATIENTS RECORDED IN LEVEL 3 : ");
-			scanf("%d",&lvl3);
-			printf("\n ENTER THE NUMBER OF PATIENTS CURED : ");
-			scanf("%d",&cured);
-			printf("\n ENTER THE NUMBER OF PATIENTS DEAD : ");
-			scanf("%d",&death);
-			printf("\n ENTER THE NUMBER OF VENTILATORS AVAILABLE : ");
-			scanf("%d",&vent);
-			fp=fopen("madurai.txt","w+");
+			   clrscr();
+			   printf("\t\t\t STATE 1 : TAMILNADU---DISTRICT 1: MADURAI");
+			   GET_INFO();
+			   fp=fopen("madurai.txt","w+");
 			   if(fp==NULL)
-			printf("\n REQUEST FOR OPENING FILE MADURAI IS DECLINED");
+			      printf("\n REQUEST FOR OPENING FILE MADURAI IS DECLINED");
 			   else
 			   {
-			fprintf(fp,"%d",lvl1);
-			fprintf(fp,"\n");
-			fprintf(fp,"%d",lvl2);
-			fprintf(fp,"\n");
-			fprintf(fp,"%d",lvl3);
-			fprintf(fp,"\n");
-			fprintf(fp,"%d",cured);
-			fprintf(fp,"\n");
-			fprintf(fp,"%d",death);
-			fprintf(fp,"\n");
-			fprintf(fp,"%d",vent);
-			fprintf(fp,"\n");
-			fclose(fp);
+			       FILE_WRITE_DATA();
+			       fclose(fp);
 			   }
 			   break;
 		   case 2:
-			clrscr();
-			printf("\t\t\t STATE 1 : TAMILNADU---DISTRICT 2: NAGAPATTINAM");
-			printf("\n ENTER THE NUMBER OF PATIENTS RECORDED IN LEVEL 1 : ");
-			scanf("%d",&lvl1);
-			printf("\n ENTER THE NUMBER OF PATIENTS RECORDED IN LEVEL 2 : ");
-			scanf("%d",&lvl2);
-			printf("\n ENTER THE NUMBER OF PATIENTS RECORDED IN LEVEL 3 : ");
-			scanf("%d",&lvl3);
-			printf("\n ENTER THE NUMBER OF PATIENTS CURED : ");
-			scanf("%d",&cured);
-			printf("\n ENTER THE NUMBER OF PATIENTS DEAD : ");
-			scanf("%d",&death);
-			printf("\n ENTER THE NUMBER OF VENTILATORS AVAILABLE : ");
-			scanf("%d",&vent);
-			fp=fopen("nagapattinam.txt","w+");
+			   clrscr();
+			   printf("\t\t\t STATE 1 : TAMILNADU---DISTRICT 2: NAGAPATTINAM");
+			   GET_INFO();
+			   fp=fopen("nagapattinam.txt","w+");
 			   if(fp==NULL)
-			printf("\n REQUEST FOR OPENING FILE NAGAPATTINAM IS DECLINED");
+			      printf("\n REQUEST FOR OPENING FILE NAGAPATTINAM IS DECLINED");
 			   else
 			   {
-			fprintf(fp,"%d",lvl1);
-			fprintf(fp,"\n");
-			fprintf(fp,"%d",lvl2);
-			fprintf(fp,"\n");
-			fprintf(fp,"%d",lvl3);
-			fprintf(fp,"\n");
-			fprintf(fp,"%d",cured);
-			fprintf(fp,"\n");
-			fprintf(fp,"%d",death);
-			fprintf(fp,"\n");
-			fprintf(fp,"%d",vent);
-			fprintf(fp,"\n");
-			fclose(fp);
+
+			       FILE_WRITE_DATA();
+			       fclose(fp);
 			   }
 			   break;
 		   case 3:
-			clrscr();
-			printf("\t\t\t STATE 1 : TAMILNADU---DISTRICT 3: COIMBATORE");
-			printf("\n ENTER THE NUMBER OF PATIENTS RECORDED IN LEVEL 1 : ");
-			scanf("%d",&lvl1);
-			printf("\n ENTER THE NUMBER OF PATIENTS RECORDED IN LEVEL 2 : ");
-			scanf("%d",&lvl2);
-			printf("\n ENTER THE NUMBER OF PATIENTS RECORDED IN LEVEL 3 : ");
-			scanf("%d",&lvl3);
-			printf("\n ENTER THE NUMBER OF PATIENTS CURED : ");
-			scanf("%d",&cured);
-			printf("\n ENTER THE NUMBER OF PATIENTS DEAD : ");
-			scanf("%d",&death);
-			printf("\n ENTER THE NUMBER OF VENTILATORS AVAILABLE : ");
-			scanf("%d",&vent);
-			fp=fopen("coimbatore.txt","w+");
+			   clrscr();
+			   printf("\t\t\t STATE 1 : TAMILNADU---DISTRICT 3: COIMBATORE");
+			   GET_INFO();
+			   fp=fopen("coimbatore.txt","w+");
 			   if(fp==NULL)
-			printf("\n REQUEST FOR OPENING FILE COIMBATORE IS DECLINED");
+			      printf("\n REQUEST FOR OPENING FILE COIMBATORE IS DECLINED");
 			   else
 			   {
-			fprintf(fp,"%d",lvl1);
-			fprintf(fp,"\n");
-			fprintf(fp,"%d",lvl2);
-			fprintf(fp,"\n");
-			fprintf(fp,"%d",lvl3);
-			fprintf(fp,"\n");
-			fprintf(fp,"%d",cured);
-			fprintf(fp,"\n");
-			fprintf(fp,"%d",death);
-			fprintf(fp,"\n");
-			fprintf(fp,"%d",vent);
-			fprintf(fp,"\n");
-			fclose(fp);
+			       FILE_WRITE_DATA();
+			       fclose(fp);
 			   }
 			   break;
 		   default: printf("\n ENTER A VALID DISTRICT ID BETWEEN 1-3");
+			    getch();
+			    READDATA();
 		}
 		break;
        case 2:
-		clrscr();
-		printf("\n------------------------------------");
-		printf("\n\t\t\tSTATE 2 : KERALA");
-		printf("\n------------------------------------");
-		printf("\n1.ERNAKULAM\n2.ALAPPUZHA\n3.KOLLAM");
-		printf("\n---------------------------------------");
-		printf("\n ENTER DISTRICT ID : ");
-		scanf("%d",&dist);
+		dist=GET_DIST(state);
 		switch(dist)
 		{
 		   case 1:
-			clrscr();
-			printf("\t\t\t STATE 2 : KERALA---DISTRICT 1: ERNAKULAM");
-			printf("\n ENTER THE NUMBER OF PATIENTS RECORDED IN LEVEL 1 : ");
-			scanf("%d",&lvl1);
-			printf("\n ENTER THE NUMBER OF PATIENTS RECORDED IN LEVEL 2 : ");
-			scanf("%d",&lvl2);
-			printf("\n ENTER THE NUMBER OF PATIENTS RECORDED IN LEVEL 3 : ");
-			scanf("%d",&lvl3);
-			printf("\n ENTER THE NUMBER OF PATIENTS CURED : ");
-			scanf("%d",&cured);
-			printf("\n ENTER THE NUMBER OF PATIENTS DEAD : ");
-			scanf("%d",&death);
-			printf("\n ENTER THE NUMBER OF VENTILATORS AVAILABLE : ");
-			scanf("%d",&vent);
-			fp=fopen("ernakulam.txt","w+");
+			   clrscr();
+			   GET_INFO();
+			   fp=fopen("ernakulam.txt","w+");
 			   if(fp==NULL)
-			printf("\n REQUEST FOR OPENING FILE ERNAKULAM IS DECLINED");
+			      printf("\n REQUEST FOR OPENING FILE ERNAKULAM IS DECLINED");
 			   else
 			   {
-			fprintf(fp,"%d",lvl1);
-			fprintf(fp,"\n");
-			fprintf(fp,"%d",lvl2);
-			fprintf(fp,"\n");
-			fprintf(fp,"%d",lvl3);
-			fprintf(fp,"\n");
-			fprintf(fp,"%d",cured);
-			fprintf(fp,"\n");
-			fprintf(fp,"%d",death);
-			fprintf(fp,"\n");
-			fprintf(fp,"%d",vent);
-			fprintf(fp,"\n");
-			fclose(fp);
+			       FILE_WRITE_DATA();
+			       fclose(fp);
 			   }
 			   break;
 		   case 2:
-			clrscr();
-			printf("\t\t\t STATE 2 : KERALA---DISTRICT 2: ALAPPUZHA");
-			printf("\n ENTER THE NUMBER OF PATIENTS RECORDED IN LEVEL 1 : ");
-			scanf("%d",&lvl1);
-			printf("\n ENTER THE NUMBER OF PATIENTS RECORDED IN LEVEL 2 : ");
-			scanf("%d",&lvl2);
-			printf("\n ENTER THE NUMBER OF PATIENTS RECORDED IN LEVEL 3 : ");
-			scanf("%d",&lvl3);
-			printf("\n ENTER THE NUMBER OF PATIENTS CURED : ");
-			scanf("%d",&cured);
-			printf("\n ENTER THE NUMBER OF PATIENTS DEAD : ");
-			scanf("%d",&death);
-			printf("\n ENTER THE NUMBER OF VENTILATORS AVAILABLE : ");
-			scanf("%d",&vent);
-			fp=fopen("alappuzha.txt","w+");
+			   clrscr();
+			   printf("\t\t\t STATE 2 : KERALA---DISTRICT 2: ALAPPUZHA");
+			   GET_INFO();
+			   fp=fopen("alappuzha.txt","w+");
 			   if(fp==NULL)
-			printf("\n REQUEST FOR OPENING FILE ALAPPUZHA IS DECLINED");
+			      printf("\n REQUEST FOR OPENING FILE ALAPPUZHA IS DECLINED");
 			   else
 			   {
-			fprintf(fp,"%d",lvl1);
-			fprintf(fp,"\n");
-			fprintf(fp,"%d",lvl2);
-			fprintf(fp,"\n");
-			fprintf(fp,"%d",lvl3);
-			fprintf(fp,"\n");
-			fprintf(fp,"%d",cured);
-			fprintf(fp,"\n");
-			fprintf(fp,"%d",death);
-			fprintf(fp,"\n");
-			fprintf(fp,"%d",vent);
-			fprintf(fp,"\n");
-			fclose(fp);
+			       FILE_WRITE_DATA();
+			       fclose(fp);
 			   }
 			   break;
 		   case 3:
-			clrscr();
-			printf("\t\t\t STATE 1 : KERALA---DISTRICT 3: KOLLAM");
-			printf("\n ENTER THE NUMBER OF PATIENTS RECORDED IN LEVEL 1 : ");
-			scanf("%d",&lvl1);
-			printf("\n ENTER THE NUMBER OF PATIENTS RECORDED IN LEVEL 2 : ");
-			scanf("%d",&lvl2);
-			printf("\n ENTER THE NUMBER OF PATIENTS RECORDED IN LEVEL 3 : ");
-			scanf("%d",&lvl3);
-			printf("\n ENTER THE NUMBER OF PATIENTS CURED : ");
-			scanf("%d",&cured);
-			printf("\n ENTER THE NUMBER OF PATIENTS DEAD : ");
-			scanf("%d",&death);
-			printf("\n ENTER THE NUMBER OF VENTILATORS AVAILABLE : ");
-			scanf("%d",&vent);
-			fp=fopen("kollam.txt","w+");
+			   clrscr();
+			   printf("\t\t\t STATE 1 : KERALA---DISTRICT 3: KOLLAM");
+			   GET_INFO();
+			   fp=fopen("kollam.txt","w+");
 			   if(fp==NULL)
-			printf("\n REQUEST FOR OPENING FILE KOLLAM IS DECLINED");
+			      printf("\n REQUEST FOR OPENING FILE KOLLAM IS DECLINED");
 			   else
 			   {
-			fprintf(fp,"%d",lvl1);
-			fprintf(fp,"\n");
-			fprintf(fp,"%d",lvl2);
-			fprintf(fp,"\n");
-			fprintf(fp,"%d",lvl3);
-			fprintf(fp,"\n");
-			fprintf(fp,"%d",cured);
-			fprintf(fp,"\n");
-			fprintf(fp,"%d",death);
-			fprintf(fp,"\n");
-			fprintf(fp,"%d",vent);
-			fprintf(fp,"\n");
-			fclose(fp);
+			       FILE_WRITE_DATA();
+			       fclose(fp);
 			   }
 			   break;
 		   default: printf("\n ENTER A VALID DISTRICT ID BETWEEN 1-3");
+			    getch();
+			    READDATA();
 		}
 		break;
        case 3:
-		clrscr();
-		printf("\n------------------------------------");
-		printf("\n\t\t\tSTATE 3 : KARNATAKA");
-		printf("\n------------------------------------");
-		printf("\n1.KOLAR\n2.BAGALKOT\n3.BELAGARI");
-		printf("\n---------------------------------------");
-		printf("\n ENTER DISTRICT ID : ");
-		scanf("%d",&dist);
+		dist=GET_DIST(state);
 		switch(dist)
 		{
 		   case 1:
-			clrscr();
-			printf("\t\t\t STATE 3 : KARNATAKA---DISTRICT 1: KOLAR");
-			printf("\n ENTER THE NUMBER OF PATIENTS RECORDED IN LEVEL 1 : ");
-			scanf("%d",&lvl1);
-			printf("\n ENTER THE NUMBER OF PATIENTS RECORDED IN LEVEL 2 : ");
-			scanf("%d",&lvl2);
-			printf("\n ENTER THE NUMBER OF PATIENTS RECORDED IN LEVEL 3 : ");
-			scanf("%d",&lvl3);
-			printf("\n ENTER THE NUMBER OF PATIENTS CURED : ");
-			scanf("%d",&cured);
-			printf("\n ENTER THE NUMBER OF PATIENTS DEAD : ");
-			scanf("%d",&death);
-			printf("\n ENTER THE NUMBER OF VENTILATORS AVAILABLE : ");
-			scanf("%d",&vent);
-			fp=fopen("kolar.txt","w+");
+			   clrscr();
+			   printf("\t\t\t STATE 3 : KARNATAKA---DISTRICT 1: KOLAR");
+			   GET_INFO();
+			   fp=fopen("kolar.txt","w+");
 			   if(fp==NULL)
-			printf("\n REQUEST FOR OPENING FILE KOLAR IS DECLINED");
+			      printf("\n REQUEST FOR OPENING FILE KOLAR IS DECLINED");
 			   else
 			   {
-			fprintf(fp,"%d",lvl1);
-			fprintf(fp,"\n");
-			fprintf(fp,"%d",lvl2);
-			fprintf(fp,"\n");
-			fprintf(fp,"%d",lvl3);
-			fprintf(fp,"\n");
-			fprintf(fp,"%d",cured);
-			fprintf(fp,"\n");
-			fprintf(fp,"%d",death);
-			fprintf(fp,"\n");
-			fprintf(fp,"%d",vent);
-			fprintf(fp,"\n");
-			fclose(fp);
+			       FILE_WRITE_DATA();
+			       fclose(fp);
 			   }
 			   break;
 		   case 2:
-			clrscr();
-			printf("\t\t\t STATE 3 : KARNATAKA---DISTRICT 2: BAGALKOT");
-			printf("\n ENTER THE NUMBER OF PATIENTS RECORDED IN LEVEL 1 : ");
-			scanf("%d",&lvl1);
-			printf("\n ENTER THE NUMBER OF PATIENTS RECORDED IN LEVEL 2 : ");
-			scanf("%d",&lvl2);
-			printf("\n ENTER THE NUMBER OF PATIENTS RECORDED IN LEVEL 3 : ");
-			scanf("%d",&lvl3);
-			printf("\n ENTER THE NUMBER OF PATIENTS CURED : ");
-			scanf("%d",&cured);
-			printf("\n ENTER THE NUMBER OF PATIENTS DEAD : ");
-			scanf("%d",&death);
-			printf("\n ENTER THE NUMBER OF VENTILATORS AVAILABLE : ");
-			scanf("%d",&vent);
-			fp=fopen("bagalkot.txt","w+");
+			   clrscr();
+			   printf("\t\t\t STATE 3 : KARNATAKA---DISTRICT 2: BAGALKOT");
+			   GET_INFO();
+			   fp=fopen("bagalkot.txt","w+");
 			   if(fp==NULL)
-			printf("\n REQUEST FOR OPENING FILE BAGALKOT IS DECLINED");
+			      printf("\n REQUEST FOR OPENING FILE BAGALKOT IS DECLINED");
 			   else
 			   {
-			fprintf(fp,"%d",lvl1);
-			fprintf(fp,"\n");
-			fprintf(fp,"%d",lvl2);
-			fprintf(fp,"\n");
-			fprintf(fp,"%d",lvl3);
-			fprintf(fp,"\n");
-			fprintf(fp,"%d",cured);
-			fprintf(fp,"\n");
-			fprintf(fp,"%d",death);
-			fprintf(fp,"\n");
-			fprintf(fp,"%d",vent);
-			fprintf(fp,"\n");
-			fclose(fp);
+			       FILE_WRITE_DATA();
+			       fclose(fp);
 			   }
 			   break;
 		   case 3:
-			clrscr();
-			printf("\t\t\t STATE 1 : KARNATAKA---DISTRICT 3: BELAGARI");
-			printf("\n ENTER THE NUMBER OF PATIENTS RECORDED IN LEVEL 1 : ");
-			scanf("%d",&lvl1);
-			printf("\n ENTER THE NUMBER OF PATIENTS RECORDED IN LEVEL 2 : ");
-			scanf("%d",&lvl2);
-			printf("\n ENTER THE NUMBER OF PATIENTS RECORDED IN LEVEL 3 : ");
-			scanf("%d",&lvl3);
-			printf("\n ENTER THE NUMBER OF PATIENTS CURED : ");
-			scanf("%d",&cured);
-			printf("\n ENTER THE NUMBER OF PATIENTS DEAD : ");
-			scanf("%d",&death);
-			printf("\n ENTER THE NUMBER OF VENTILATORS AVAILABLE : ");
-			scanf("%d",&vent);
-			fp=fopen("belagari.txt","w+");
+			   clrscr();
+			   printf("\t\t\t STATE 1 : KARNATAKA---DISTRICT 3: BELAGARI");
+			   GET_INFO();
+			   fp=fopen("belagari.txt","w+");
 			   if(fp==NULL)
-			printf("\n REQUEST FOR OPENING FILE BELAGARI IS DECLINED");
+			      printf("\n REQUEST FOR OPENING FILE BELAGARI IS DECLINED");
 			   else
 			   {
-			fprintf(fp,"%d",lvl1);
-			fprintf(fp,"\n");
-			fprintf(fp,"%d",lvl2);
-			fprintf(fp,"\n");
-			fprintf(fp,"%d",lvl3);
-			fprintf(fp,"\n");
-			fprintf(fp,"%d",cured);
-			fprintf(fp,"\n");
-			fprintf(fp,"%d",death);
-			fprintf(fp,"\n");
-			fprintf(fp,"%d",vent);
-			fprintf(fp,"\n");
-			fclose(fp);
+			       FILE_WRITE_DATA();
+			       fclose(fp);
 			   }
 			   break;
 		   default: printf("\n ENTER A VALID DISTRICT ID BETWEEN 1-3");
+			    getch();
+			    READDATA();
 		}
 		break;
        default: printf("\nPLEASE ENTER A VALID STATE ID BETWEEN 1-3");
+		getch();
+		READDATA();
     }
 }
 
 void INFORMATION(void)
 {
-    int lvl1,lvl2,lvl3,cured,death,vent,state,dist;
-clrscr();
-printf("-----------------------------------\n");
-printf("1.TAMILNADU\n2.KERALA\n3.KARNATAKA\n");
-printf("-----------------------------------\n");
-printf("ENTER STATE ID: ");
-scanf("%d",&state);
+    state=INFO_PRINT();
     switch(state)
     {
        case 1 :
 		clrscr();
-		printf("\n------------------------------------");
-		printf("\n\t\t\tSTATE 1 : TAMIL NADU");
-		printf("\n------------------------------------");
-		printf("\n1.MADURAI\n2.NAGAPATTINAM\n3.COIMBATORE\n4.ALL");
-		printf("\n---------------------------------------");
+		printf("--------------------------------------------------------------------------------");
+		printf("\n\t\t\tSTATE 3 : TAMIL NADU\n");
+		printf("--------------------------------------------------------------------------------");
+		printf("\n1.MADURAI\n2.NAGAPATTINAM\n3.COIMBATORE\n4.ALL\n");
+		printf("--------------------------------------------------------------------------------");
 		printf("\n ENTER DISTRICT ID : ");
 		scanf("%d",&dist);
 		switch(dist)
 		{
 		   case 1:
-			clrscr();
-			printf("\t\t\t STATE 1 : TAMILNADU---DISTRICT 1: MADURAI");
-			fp=fopen("madurai.txt","r");
+			   clrscr();
+			   printf("\t\t\t STATE 1 : TAMILNADU---DISTRICT 1: MADURAI\n");
+			   printf("--------------------------------------------------------------------------------");
+			   fp=fopen("madurai.txt","r");
 			   if(fp==NULL)
-			printf("\n REQUEST FOR OPENING FILE MADURAI IS DECLINED");
+			      printf("\n REQUEST FOR OPENING FILE MADURAI IS DECLINED");
 			   else
 			   {
-			fscanf(fp,"%d %d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death,&vent);
-			printf("\n THE NUMBER OF PATIENTS IN LEVEL 1 ARE : %d",lvl1);
-			printf("\n THE NUMBER OF PATIENTS IN LEVEL 2 ARE : %d",lvl2);
-			printf("\n THE NUMBER OF PATIENTS IN LEVEL 3 ARE : %d",lvl3);
-			printf("\n THE NUMBER OF PATIENTS RECOVERED ARE : %d",cured);
-			printf("\n THE NUMBER OF PATIENTS DEAD ARE : %d",death);
-			printf("\n THE NUMBER OF VENTILATORS IS : %d",vent);
-			getch();
-			fclose(fp);
+			       INFO_MESSAGE();
+			       getch();
+			       fclose(fp);
 			   }
 			   break;
 		   case 2:
-			clrscr();
-			printf("\t\t\t STATE 1 : TAMILNADU---DISTRICT 2: NAGAPATTINAM");
-			fp=fopen("nagapattinam.txt","r");
+			   clrscr();
+			   printf("\t\t\t STATE 1 : TAMILNADU---DISTRICT 2: NAGAPATTINAM\n");
+			   printf("--------------------------------------------------------------------------------");
+			   fp=fopen("nagapattinam.txt","r");
 			   if(fp==NULL)
-			printf("\n REQUEST FOR OPENING FILE NAGAPATTINAM IS DECLINED");
+			      printf("\n REQUEST FOR OPENING FILE NAGAPATTINAM IS DECLINED");
 			   else
 			   {
-			fscanf(fp,"%d %d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death,&vent);
-			printf("\n THE NUMBER OF PATIENTS IN LEVEL 1 ARE : %d",lvl1);
-			printf("\n THE NUMBER OF PATIENTS IN LEVEL 2 ARE : %d",lvl2);
-			printf("\n THE NUMBER OF PATIENTS IN LEVEL 3 ARE : %d",lvl3);
-			printf("\n THE NUMBER OF PATIENTS RECOVERED ARE : %d",cured);
-			printf("\n THE NUMBER OF PATIENTS DEAD ARE : %d",death);
-			printf("\n THE NUMBER OF VENTILATORS IS : %d",vent);
-			getch();
-			fclose(fp);
+			       INFO_MESSAGE();
+			       getch();
+			       fclose(fp);
 			   }
 			   break;
 		   case 3:
-			clrscr();
-			printf("\t\t\t STATE 1 : TAMILNADU---DISTRICT 3: COIMBATORE");
-			fp=fopen("coimbatore.txt","r");
+			   clrscr();
+			   printf("--------------------------------------------------------------------------------");
+			   printf("\t\t\t STATE 1 : TAMILNADU---DISTRICT 3: COIMBATORE\n");
+			   printf("--------------------------------------------------------------------------------");
+			   fp=fopen("coimbatore.txt","r");
 			   if(fp==NULL)
 				printf("\n REQUEST FOR OPENING FILE COIMBATORE IS DECLINED");
 			   else
 			   {
-			fscanf(fp,"%d  %d  %d  %d  %d  %d",&lvl1,&lvl2,&lvl3,&cured,&death,&vent);
-			printf("\n THE NUMBER OF PATIENTS IN LEVEL 1 ARE : %d",lvl1);
-			printf("\n THE NUMBER OF PATIENTS IN LEVEL 2 ARE : %d",lvl2);
-			printf("\n THE NUMBER OF PATIENTS IN LEVEL 3 ARE : %d",lvl3);
-			printf("\n THE NUMBER OF PATIENTS RECOVERED ARE : %d",cured);
-			printf("\n THE NUMBER OF PATIENTS DEAD ARE : %d",death);
-			printf("\n THE NUMBER OF VENTILATORS IS : %d",vent);
-			getch();
-			fclose(fp);
+			       INFO_MESSAGE();
+			       getch();
+			       fclose(fp);
 			   }
 			   break;
 		   case 4:
-			clrscr();
-			printf("\n\t\t\t STATE 1: TAMIL NADU");
-			printf("\n\t\t\t DISTRICT : 1 : MADURAI");
-			fp=fopen("madurai.txt","r");
+			   clrscr();
+			   printf("\n\t\t\t STATE 1: TAMIL NADU");
+			   printf("\n\t\t\t DISTRICT : 1 : MADURAI\n");
+			   printf("--------------------------------------------------------------------------------");
+			   fp=fopen("madurai.txt","r");
 			   if(fp==NULL)
-			printf("\n REQUEST FOR OPENING FILE MADURAI IS DECLINED");
+			      printf("\n REQUEST FOR OPENING FILE MADURAI IS DECLINED");
 			   else
 			   {
-			fscanf(fp,"%d %d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death,&vent);
-			printf("\n THE NUMBER OF PATIENTS IN LEVEL 1 ARE : %d",lvl1);
-			printf("\n THE NUMBER OF PATIENTS IN LEVEL 2 ARE : %d",lvl2);
-			printf("\n THE NUMBER OF PATIENTS IN LEVEL 3 ARE : %d",lvl3);
-			printf("\n THE NUMBER OF PATIENTS RECOVERED ARE : %d",cured);
-			printf("\n THE NUMBER OF PATIENTS DEAD ARE : %d",death);
-			printf("\n THE NUMBER OF VENTILATORS IS : %d",vent);
-			printf("---------------------------------------------------");
-			getch();
-			fclose(fp);
+			       INFO_MESSAGE();
+			       getch();
+			       fclose(fp);
 			   }
-			printf("\n\t\t\t DISTRICT : 2 : NAGAPATTINAM");
-			fp=fopen("nagapattinam.txt","r");
+			   printf("\n\t\t\t DISTRICT : 2 : NAGAPATTINAM\n");
+			   printf("--------------------------------------------------------------------------------");
+			   fp=fopen("nagapattinam.txt","r");
 			   if(fp==NULL)
-			printf("\n REQUEST FOR OPENING FILE NAGAPATTINAM IS DECLINED");
+			      printf("\n REQUEST FOR OPENING FILE NAGAPATTINAM IS DECLINED");
 			   else
 			   {
-			fscanf(fp,"%d %d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death,&vent);
-			printf("\n THE NUMBER OF PATIENTS IN LEVEL 1 ARE : %d",lvl1);
-			printf("\n THE NUMBER OF PATIENTS IN LEVEL 2 ARE : %d",lvl2);
-			printf("\n THE NUMBER OF PATIENTS IN LEVEL 3 ARE : %d",lvl3);
-			printf("\n THE NUMBER OF PATIENTS RECOVERED ARE : %d",cured);
-			printf("\n THE NUMBER OF PATIENTS DEAD ARE : %d",death);
-			printf("\n THE NUMBER OF VENTILATORS IS : %d",vent);
-			printf("---------------------------------------------------");
-			getch();
-			fclose(fp);
+			       INFO_MESSAGE();
+			       getch();
+			       fclose(fp);
 			   }
-			printf("\n\t\t\t DISTRICT : 3 : COIMBATORE");
-			fp=fopen("coimbatore.txt","r");
+			   printf("\n\t\t\t DISTRICT : 3 : COIMBATORE\n");
+			   printf("--------------------------------------------------------------------------------");
+			   fp=fopen("coimbatore.txt","r");
 			   if(fp==NULL)
-			printf("\n REQUEST FOR OPENING FILE COIMBATORE IS DECLINED");
+			      printf("\n REQUEST FOR OPENING FILE COIMBATORE IS DECLINED");
 			   else
 			   {
-			fscanf(fp,"%d %d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death,&vent);
-			printf("\n THE NUMBER OF PATIENTS IN LEVEL 1 ARE : %d",lvl1);
-			printf("\n THE NUMBER OF PATIENTS IN LEVEL 2 ARE : %d",lvl2);
-			printf("\n THE NUMBER OF PATIENTS IN LEVEL 3 ARE : %d",lvl3);
-			printf("\n THE NUMBER OF PATIENTS RECOVERED ARE : %d",cured);
-			printf("\n THE NUMBER OF PATIENTS DEAD ARE : %d",death);
-			printf("\n THE NUMBER OF VENTILATORS IS : %d",vent);
-			printf("---------------------------------------------------");
-			getch();
-			fclose(fp);
+			       INFO_MESSAGE();
+			       getch();
+			       fclose(fp);
 			   }
 
 		   default: printf("\n ENTER A VALID DISTRICT ID BETWEEN 1-4");
+			    getch();
+			    INFORMATION();
 		}
 		break;
        case 2:
 		clrscr();
-		printf("\n------------------------------------");
-		printf("\n\t\t\tSTATE 2 : KERALA");
-		printf("\n------------------------------------");
-		printf("\n1.ERNAKULAM\n2.ALAPPUZHA\n3.KOLLAM\n4.ALL");
-		printf("---------------------------------------");
+		printf("--------------------------------------------------------------------------------");
+		printf("\n\t\t\tSTATE 2 : KERALA\n");
+		printf("--------------------------------------------------------------------------------");
+		printf("\n1.ERNAKULAM\n2.ALAPPUZHA\n3.KOLLAM\n4.ALL\n");
+		printf("--------------------------------------------------------------------------------");
 		printf("\n ENTER DISTRICT ID : ");
 		scanf("%d",&dist);
 		switch(dist)
 		{
 		   case 1:
-			clrscr();
-			printf("\t\t\t STATE 2 : KERALA---DISTRICT 1: ERNAKULAM");
-			fp=fopen("ernakulam.txt","r");
+			   clrscr();
+			   printf("--------------------------------------------------------------------------------");
+			   printf("\t\t\t STATE 2 : KERALA---DISTRICT 1: ERNAKULAM\n");
+			   printf("--------------------------------------------------------------------------------");
+			   fp=fopen("ernakulam.txt","r");
 			   if(fp==NULL)
-			printf("\n REQUEST FOR OPENING FILE ERNAKULAM IS DECLINED");
+			      printf("\n REQUEST FOR OPENING FILE ERNAKULAM IS DECLINED");
 			   else
 			   {
-			fscanf(fp,"%d %d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death,&vent);
-			printf("\n THE NUMBER OF PATIENTS IN LEVEL 1 ARE : %d",lvl1);
-			printf("\n THE NUMBER OF PATIENTS IN LEVEL 2 ARE : %d",lvl2);
-			printf("\n THE NUMBER OF PATIENTS IN LEVEL 3 ARE : %d",lvl3);
-			printf("\n THE NUMBER OF PATIENTS RECOVERED ARE : %d",cured);
-			printf("\n THE NUMBER OF PATIENTS DEAD ARE : %d",death);
-			printf("\n THE NUMBER OF VENTILATORS IS : %d",vent);
-			getch();
-			fclose(fp);
+			       INFO_MESSAGE();
+			       getch();
+			       fclose(fp);
 			   }
 			   break;
 		   case 2:
-			clrscr();
-			printf("\t\t\t STATE 2 : KERALA---DISTRICT 2:ALAPPUZHA");
-			fp=fopen("alappuzha.txt","r");
+			   clrscr();
+			   printf("--------------------------------------------------------------------------------");
+			   printf("\t\t\t STATE 2 : KERALA---DISTRICT 2:ALAPPUZHA\n");
+			   printf("--------------------------------------------------------------------------------");
+			   fp=fopen("alappuzha.txt","r");
 			   if(fp==NULL)
-			printf("\n REQUEST FOR OPENING FILE ALAPPUZHA IS DECLINED");
+			      printf("\n REQUEST FOR OPENING FILE ALAPPUZHA IS DECLINED");
 			   else
 			   {
-			fscanf(fp,"%d %d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death,&vent);
-			printf("\n THE NUMBER OF PATIENTS IN LEVEL 1 ARE : %d",lvl1);
-			printf("\n THE NUMBER OF PATIENTS IN LEVEL 2 ARE : %d",lvl2);
-			printf("\n THE NUMBER OF PATIENTS IN LEVEL 3 ARE : %d",lvl3);
-			printf("\n THE NUMBER OF PATIENTS RECOVERED ARE : %d",cured);
-			printf("\n THE NUMBER OF PATIENTS DEAD ARE : %d",death);
-			printf("\n THE NUMBER OF VENTILATORS IS : %d",vent);
-			getch();
-			fclose(fp);
+			       INFO_MESSAGE();
+			       getch();
+			       fclose(fp);
 			   }
 			   break;
 		   case 3:
-			clrscr();
-			printf("\t\t\t STATE 2 : KERALA---DISTRICT 3: KOLLAM");
-			fp=fopen("kollam.txt","r");
+			   clrscr();
+			   printf("\t\t\t STATE 2 : KERALA---DISTRICT 3: KOLLAM\n");
+			   printf("--------------------------------------------------------------------------------");
+			   fp=fopen("kollam.txt","r");
 			   if(fp==NULL)
-			printf("\n REQUEST FOR OPENING FILE KOLLAM IS DECLINED");
+			      printf("\n REQUEST FOR OPENING FILE KOLLAM IS DECLINED");
 			   else
 			   {
-			fscanf(fp,"%d %d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death,&vent);
-			printf("\n THE NUMBER OF PATIENTS IN LEVEL 1 ARE : %d",lvl1);
-			printf("\n THE NUMBER OF PATIENTS IN LEVEL 2 ARE : %d",lvl2);
-			printf("\n THE NUMBER OF PATIENTS IN LEVEL 3 ARE : %d",lvl3);
-			printf("\n THE NUMBER OF PATIENTS RECOVERED ARE : %d",cured);
-			printf("\n THE NUMBER OF PATIENTS DEAD ARE : %d",death);
-			printf("\n THE NUMBER OF VENTILATORS IS : %d",vent);
-			getch();
-			fclose(fp);
+			       INFO_MESSAGE();
+			       getch();
+			       fclose(fp);
 			   }
 			   break;
 		   case 4:
-			clrscr();
-			printf("\n\t\t\t STATE 2: KERALA");
-			printf("\n\t\t\t DISTRICT : 1 : ERNAKULAM");
-			fp=fopen("ernakulam.txt","r");
+			   clrscr();
+			   printf("--------------------------------------------------------------------------------");
+			   printf("\n\t\t\t STATE 2: KERALA");
+			   printf("\n\t\t\t DISTRICT : 1 : ERNAKULAM\n");
+			   printf("--------------------------------------------------------------------------------");
+			   fp=fopen("ernakulam.txt","r");
 			   if(fp==NULL)
-			printf("\n REQUEST FOR OPENING FILE ERNAKULAM IS DECLINED");
+			      printf("\n REQUEST FOR OPENING FILE ERNAKULAM IS DECLINED");
 			   else
 			   {
-			fscanf(fp,"%d %d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death,&vent);
-			printf("\n THE NUMBER OF PATIENTS IN LEVEL 1 ARE : %d",lvl1);
-			printf("\n THE NUMBER OF PATIENTS IN LEVEL 2 ARE : %d",lvl2);
-			printf("\n THE NUMBER OF PATIENTS IN LEVEL 3 ARE : %d",lvl3);
-			printf("\n THE NUMBER OF PATIENTS RECOVERED ARE : %d",cured);
-			printf("\n THE NUMBER OF PATIENTS DEAD ARE : %d",death);
-			printf("\n THE NUMBER OF VENTILATORS IS : %d",vent);
-			printf("---------------------------------------------------");
-			fclose(fp);
+			       INFO_MESSAGE();
+			       getch();
+			       fclose(fp);
 			   }
-			printf("\n\t\t\t DISTRICT : 2 : ALAPPUZHA");
-			fp=fopen("alappuzha.txt","r");
+			   printf("\n\t\t\t DISTRICT : 2 : ALAPPUZHA\n");
+			   printf("--------------------------------------------------------------------------------");
+			   fp=fopen("alappuzha.txt","r");
 			   if(fp==NULL)
-			printf("\n REQUEST FOR OPENING FILE ALAPPUZHA IS DECLINED");
+			      printf("\n REQUEST FOR OPENING FILE ALAPPUZHA IS DECLINED");
 			   else
 			   {
-			fscanf(fp,"%d %d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death,&vent);
-			printf("\n THE NUMBER OF PATIENTS IN LEVEL 1 ARE : %d",lvl1);
-			printf("\n THE NUMBER OF PATIENTS IN LEVEL 2 ARE : %d",lvl2);
-			printf("\n THE NUMBER OF PATIENTS IN LEVEL 3 ARE : %d",lvl3);
-			printf("\n THE NUMBER OF PATIENTS RECOVERED ARE : %d",cured);
-			printf("\n THE NUMBER OF PATIENTS DEAD ARE : %d",death);
-			printf("\n THE NUMBER OF VENTILATORS IS : %d",vent);
-			printf("---------------------------------------------------");
-			getch();
-			fclose(fp);
+
+			       INFO_MESSAGE();
+			       getch();
+			       fclose(fp);
 			   }
-			printf("\n\t\t\t DISTRICT : 3 : KOLLAM");
-			fp=fopen("kollam.txt","r");
+			   printf("\n\t\t\t DISTRICT : 3 : KOLLAM\n");
+			   printf("--------------------------------------------------------------------------------");
+			   fp=fopen("kollam.txt","r");
 			   if(fp==NULL)
-			printf("\n REQUEST FOR OPENING FILE KOLLAM IS DECLINED");
+			      printf("\n REQUEST FOR OPENING FILE KOLLAM IS DECLINED");
 			   else
 			   {
-			fscanf(fp,"%d %d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death,&vent);
-			printf("\n THE NUMBER OF PATIENTS IN LEVEL 1 ARE : %d",lvl1);
-			printf("\n THE NUMBER OF PATIENTS IN LEVEL 2 ARE : %d",lvl2);
-			printf("\n THE NUMBER OF PATIENTS IN LEVEL 3 ARE : %d",lvl3);
-			printf("\n THE NUMBER OF PATIENTS RECOVERED ARE : %d",cured);
-			printf("\n THE NUMBER OF PATIENTS DEAD ARE : %d",death);
-			printf("\n THE NUMBER OF VENTILATORS IS : %d",vent);
-			printf("---------------------------------------------------");
-			getch();
-			fclose(fp);
+			       INFO_MESSAGE();
+			       getch();
+			       fclose(fp);
 			   }
 
 		   default: printf("\n ENTER A VALID DISTRICT ID BETWEEN 1-4");
+			    getch();
+			    INFORMATION();
 		}
 		break;
 
        case 3:
 		clrscr();
-		printf("\n------------------------------------");
-		printf("\n\t\t\tSTATE 3 : KARNATAKA");
-		printf("\n------------------------------------");
-		printf("\n1.KOLAR\n2.BAGALKOT\n3.BELAGARI\n4.ALL");
-		printf("---------------------------------------");
+		printf("--------------------------------------------------------------------------------");
+		printf("\n\t\t\tSTATE 3 : KARNATAKA\n");
+		printf("--------------------------------------------------------------------------------");
+		printf("\n1.KOLAR\n2.BAGALKOT\n3.BELAGARI\n4.ALL\n");
+		printf("--------------------------------------------------------------------------------");
 		printf("\n ENTER DISTRICT ID : ");
 		scanf("%d",&dist);
 		switch(dist)
 		{
 		   case 1:
-			clrscr();
-			printf("\t\t\t STATE 3 : KARNATAKA---DISTRICT 1: KOLAR");
-			fp=fopen("kolar.txt","r");
+			   clrscr();
+			   printf("--------------------------------------------------------------------------------");
+			   printf("\t\t\t STATE 3 : KARNATAKA---DISTRICT 1: KOLAR\n");
+			   printf("--------------------------------------------------------------------------------");
+			   fp=fopen("kolar.txt","r");
 			   if(fp==NULL)
-			printf("\n REQUEST FOR OPENING FILE KOLAR IS DECLINED");
+			      printf("\n REQUEST FOR OPENING FILE KOLAR IS DECLINED");
 			   else
 			   {
-			fscanf(fp,"%d %d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death,&vent);
-			printf("\n THE NUMBER OF PATIENTS IN LEVEL 1 ARE : %d",lvl1);
-			printf("\n THE NUMBER OF PATIENTS IN LEVEL 2 ARE : %d",lvl2);
-			printf("\n THE NUMBER OF PATIENTS IN LEVEL 3 ARE : %d",lvl3);
-			printf("\n THE NUMBER OF PATIENTS RECOVERED ARE : %d",cured);
-			printf("\n THE NUMBER OF PATIENTS DEAD ARE : %d",death);
-			printf("\n THE NUMBER OF VENTILATORS IS : %d",vent);
-			getch();
-			fclose(fp);
+			       INFO_MESSAGE();
+			       getch();
+			       fclose(fp);
 			   }
 			   break;
 		   case 2:
-			clrscr();
-			printf("\t\t\t STATE 3 : KARNATAKA---DISTRICT 2: BAGALKOT");
-			fp=fopen("bagalkot.txt","r");
+			   clrscr();
+			   printf("--------------------------------------------------------------------------------");
+			   printf("\t\t\t STATE 3 : KARNATAKA---DISTRICT 2: BAGALKOT\n");
+			   printf("--------------------------------------------------------------------------------");
+			   fp=fopen("bagalkot.txt","r");
 			   if(fp==NULL)
-			printf("\n REQUEST FOR OPENING FILE BAGALKOT IS DECLINED");
+			      printf("\n REQUEST FOR OPENING FILE BAGALKOT IS DECLINED");
 			   else
 			   {
-			fscanf(fp,"%d %d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death,&vent);
-			printf("\n THE NUMBER OF PATIENTS IN LEVEL 1 ARE : %d",lvl1);
-			printf("\n THE NUMBER OF PATIENTS IN LEVEL 2 ARE : %d",lvl2);
-			printf("\n THE NUMBER OF PATIENTS IN LEVEL 3 ARE : %d",lvl3);
-			printf("\n THE NUMBER OF PATIENTS RECOVERED ARE : %d",cured);
-			printf("\n THE NUMBER OF PATIENTS DEAD ARE : %d",death);
-			printf("\n THE NUMBER OF VENTILATORS IS : %d",vent);
-			getch();
-			fclose(fp);
+			       INFO_MESSAGE();
+			       getch();
+			       fclose(fp);
 			   }
 			   break;
 		   case 3:
-			clrscr();
-			printf("\t\t\t STATE 3 : KARNATAKA---DISTRICT 3: BELAGARI");
-			fp=fopen("belagari.txt","r");
+			   clrscr();
+			   printf("--------------------------------------------------------------------------------");
+			   printf("\t\t\t STATE 3 : KARNATAKA---DISTRICT 3: BELAGARI\n");
+			   printf("--------------------------------------------------------------------------------");
+			   fp=fopen("belagari.txt","r");
 			   if(fp==NULL)
-			printf("\n REQUEST FOR OPENING FILE BELAGARI IS DECLINED");
+			      printf("\n REQUEST FOR OPENING FILE BELAGARI IS DECLINED");
 			   else
 			   {
-			fscanf(fp,"%d %d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death,&vent);
-			printf("\n THE NUMBER OF PATIENTS IN LEVEL 1 ARE : %d",lvl1);
-			printf("\n THE NUMBER OF PATIENTS IN LEVEL 2 ARE : %d",lvl2);
-			printf("\n THE NUMBER OF PATIENTS IN LEVEL 3 ARE : %d",lvl3);
-			printf("\n THE NUMBER OF PATIENTS RECOVERED ARE : %d",cured);
-			printf("\n THE NUMBER OF PATIENTS DEAD ARE : %d",death);
-			printf("\n THE NUMBER OF VENTILATORS IS : %d",vent);
-			getch();
-			fclose(fp);
+			       INFO_MESSAGE();
+			       getch();
+			       fclose(fp);
 			   }
 			   break;
 		   case 4:
-			clrscr();
-			printf("\n\t\t\t STATE 1: KARNATAKA");
-			printf("\n\t\t\t DISTRICT : 1 : KOLAR");
-			fp=fopen("kolar.txt","r");
+			   clrscr();
+			   printf("\n\t\t\t STATE 1: KARNATAKA\n");
+			   printf("--------------------------------------------------------------------------------");
+			   printf("\n\t\t\t DISTRICT : 1 : KOLAR\n");
+			   printf("--------------------------------------------------------------------------------");
+			   fp=fopen("kolar.txt","r");
 			   if(fp==NULL)
-			printf("\n REQUEST FOR OPENING FILE KOLAR IS DECLINED");
+			      printf("\n REQUEST FOR OPENING FILE KOLAR IS DECLINED");
 			   else
 			   {
-			fscanf(fp,"%d %d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death,&vent);
-			printf("\n THE NUMBER OF PATIENTS IN LEVEL 1 ARE : %d",lvl1);
-			printf("\n THE NUMBER OF PATIENTS IN LEVEL 2 ARE : %d",lvl2);
-			printf("\n THE NUMBER OF PATIENTS IN LEVEL 3 ARE : %d",lvl3);
-			printf("\n THE NUMBER OF PATIENTS RECOVERED ARE : %d",cured);
-			printf("\n THE NUMBER OF PATIENTS DEAD ARE : %d",death);
-			printf("\n THE NUMBER OF VENTILATORS IS : %d",vent);
-			printf("---------------------------------------------------");
-			getch();
-			fclose(fp);
+			       INFO_MESSAGE();
+			       getch();
+			       fclose(fp);
 			   }
-			printf("\n\t\t\t DISTRICT : 2 : BAGALKOT");
-			fp=fopen("bagalkot.txt","r");
+			   printf("\n\t\t\t DISTRICT : 2 : BAGALKOT\n");
+			   printf("--------------------------------------------------------------------------------");
+			   fp=fopen("bagalkot.txt","r");
 			   if(fp==NULL)
-			printf("\n REQUEST FOR OPENING FILE BAGALKOT IS DECLINED");
+			      printf("\n REQUEST FOR OPENING FILE BAGALKOT IS DECLINED");
 			   else
 			   {
-			fscanf(fp,"%d %d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death,&vent);
-			printf("\n THE NUMBER OF PATIENTS IN LEVEL 1 ARE : %d",lvl1);
-			printf("\n THE NUMBER OF PATIENTS IN LEVEL 2 ARE : %d",lvl2);
-			printf("\n THE NUMBER OF PATIENTS IN LEVEL 3 ARE : %d",lvl3);
-			printf("\n THE NUMBER OF PATIENTS RECOVERED ARE : %d",cured);
-			printf("\n THE NUMBER OF PATIENTS DEAD ARE : %d",death);
-			printf("\n THE NUMBER OF VENTILATORS IS : %d",vent);
-			printf("---------------------------------------------------");
-			getch();
-			fclose(fp);
+			       INFO_MESSAGE();
+			       getch();
+			       fclose(fp);
 			   }
-			printf("\n\t\t\t DISTRICT : 3 : BELAGARI");
-			fp=fopen("belagari.txt","r");
+			   printf("\n\t\t\t DISTRICT : 3 : BELAGARI\n");
+			   printf("--------------------------------------------------------------------------------");
+			   fp=fopen("belagari.txt","r");
 			   if(fp==NULL)
-			printf("\n REQUEST FOR OPENING FILE BELAGARI IS DECLINED");
+			      printf("\n REQUEST FOR OPENING FILE BELAGARI IS DECLINED");
 			   else
 			   {
-			fscanf(fp,"%d %d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death,&vent);
-			printf("\n THE NUMBER OF PATIENTS IN LEVEL 1 ARE : %d",lvl1);
-			printf("\n THE NUMBER OF PATIENTS IN LEVEL 2 ARE : %d",lvl2);
-			printf("\n THE NUMBER OF PATIENTS IN LEVEL 3 ARE : %d",lvl3);
-			printf("\n THE NUMBER OF PATIENTS RECOVERED ARE : %d",cured);
-			printf("\n THE NUMBER OF PATIENTS DEAD ARE : %d",death);
-			printf("\n THE NUMBER OF VENTILATORS IS : %d",vent);
-			printf("---------------------------------------------------");
-			getch();
-			fclose(fp);
+			       getch();
+			       fclose(fp);
 			   }
 
 		   default: printf("\n ENTER A VALID DISTRICT ID BETWEEN 1-4");
+			    getch();
+			    INFORMATION();
 		}
 		break;
 
        default: printf("\nPLEASE ENTER A VALID STATE ID BETWEEN 1-3");
+		getch();
+		INFORMATION();
     }
 }
 
 
 void VENTILATOR_STATUS(void)
 {
-   int lvl1,lvl2,lvl3,vent,cured,death,tot_lvl3=0,tot_vent=0;
-fp=fopen("madurai.txt","r");
+   int tot_lvl3=0,tot_vent=0;
+   fp=fopen("madurai.txt","r");
    if(fp==NULL)
-printf("\n REQUEST FOR OPENING FILE MADURAI IS DECLINED");
+     printf("\n REQUEST FOR OPENING FILE MADURAI IS DECLINED");
    else
    {
-fscanf(fp,"%d %d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death,&vent);
-tot_vent=tot_vent+vent;
+      fscanf(fp,"%d %d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death,&vent);
+      tot_vent=tot_vent+vent;
       tot_lvl3=tot_lvl3+lvl3;
-fclose(fp);
+      fclose(fp);
    }
-fp=fopen("nagapattinam.txt","r");
+   fp=fopen("nagapattinam.txt","r");
    if(fp==NULL)
-printf("\n REQUEST FOR OPENING FILE NAGAPATTINAM IS DECLINED");
+     printf("\n REQUEST FOR OPENING FILE NAGAPATTINAM IS DECLINED");
    else
    {
-fscanf(fp,"%d %d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death,&vent);
-tot_vent=tot_vent+vent;
+      fscanf(fp,"%d %d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death,&vent);
+      tot_vent=tot_vent+vent;
       tot_lvl3=tot_lvl3+lvl3;
-fclose(fp);
+      fclose(fp);
    }
-fp=fopen("coimbatore.txt","r");
+   fp=fopen("coimbatore.txt","r");
    if(fp==NULL)
-printf("\n REQUEST FOR OPENING FILE COIMBATORE IS DECLINED");
+     printf("\n REQUEST FOR OPENING FILE COIMBATORE IS DECLINED");
    else
    {
-fscanf(fp,"%d %d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death,&vent);
-tot_vent=tot_vent+vent;
+      fscanf(fp,"%d %d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death,&vent);
+      tot_vent=tot_vent+vent;
       tot_lvl3=tot_lvl3+lvl3;
-fclose(fp);
+      fclose(fp);
    }
    if(tot_lvl3<tot_vent)
 
-printf("\n THERE  ARE ENOUGH VENTILATORS IN TAMILNADU");
+      printf("\n THERE  ARE ENOUGH VENTILATORS IN TAMILNADU");
    else
    {
-printf("\n ALARM!!!! TAMILNADU HAS A SCARCITY OF VENTILATORS");
-printf("\n %d VENTILATORS ARE REQUIRED IN TAMILNADU",tot_lvl3-tot_vent);
+      printf("\n ALARM!!!! TAMILNADU HAS A SCARCITY OF VENTILATORS");
+      printf("\n %d VENTILATORS ARE REQUIRED IN TAMILNADU",tot_lvl3-tot_vent);
    }
    tot_lvl3=0;
-tot_vent=0;
-fp=fopen("ernakulam.txt","r");
+   tot_vent=0;
+   fp=fopen("ernakulam.txt","r");
    if(fp==NULL)
-printf("\n REQUEST FOR OPENING FILE ERNAKULAM IS DECLINED");
+     printf("\n REQUEST FOR OPENING FILE ERNAKULAM IS DECLINED");
    else
    {
-fscanf(fp,"%d %d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death,&vent);
-tot_vent=tot_vent+vent;
+      fscanf(fp,"%d %d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death,&vent);
+      tot_vent=tot_vent+vent;
       tot_lvl3=tot_lvl3+lvl3;
-fclose(fp);
+      fclose(fp);
    }
-fp=fopen("alappuzha.txt","r");
+   fp=fopen("alappuzha.txt","r");
    if(fp==NULL)
-printf("\n REQUEST FOR OPENING FILE ALAPPUZHA IS DECLINED");
+     printf("\n REQUEST FOR OPENING FILE ALAPPUZHA IS DECLINED");
    else
    {
-fscanf(fp,"%d %d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death,&vent);
-tot_vent=tot_vent+vent;
+      fscanf(fp,"%d %d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death,&vent);
+      tot_vent=tot_vent+vent;
       tot_lvl3=tot_lvl3+lvl3;
-fclose(fp);
+      fclose(fp);
    }
-fp=fopen("kollam.txt","r");
+   fp=fopen("kollam.txt","r");
    if(fp==NULL)
-printf("\n REQUEST FOR OPENING FILE KOLLAM IS DECLINED");
+     printf("\n REQUEST FOR OPENING FILE KOLLAM IS DECLINED");
    else
    {
-fscanf(fp,"%d %d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death,&vent);
-tot_vent=tot_vent+vent;
+      fscanf(fp,"%d %d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death,&vent);
+      tot_vent=tot_vent+vent;
       tot_lvl3=tot_lvl3+lvl3;
-fclose(fp);
+      fclose(fp);
    }
    if(tot_lvl3<tot_vent)
-printf("\n THERE  ARE ENOUGH VENTILATORS IN KERALA");
+      printf("\n THERE  ARE ENOUGH VENTILATORS IN KERALA");
    else
    {
-printf("\n ALARM!!!! KERALA HAS A SCARCITY OF VENTILATORS");
-printf("\n %d VENTILATORS ARE REQUIRED IN KERALA",tot_lvl3-tot_vent);
+      printf("\n ALARM!!!! KERALA HAS A SCARCITY OF VENTILATORS");
+      printf("\n %d VENTILATORS ARE REQUIRED IN KERALA",tot_lvl3-tot_vent);
    }
    tot_lvl3=0;
-tot_vent=0;
-fp=fopen("kolar.txt","r");
+   tot_vent=0;
+   fp=fopen("kolar.txt","r");
    if(fp==NULL)
-printf("\n REQUEST FOR OPENING FILE KOLAR IS DECLINED");
+     printf("\n REQUEST FOR OPENING FILE KOLAR IS DECLINED");
    else
    {
-fscanf(fp,"%d %d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death,&vent);
-tot_vent=tot_vent+vent;
+      fscanf(fp,"%d %d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death,&vent);
+      tot_vent=tot_vent+vent;
       tot_lvl3=tot_lvl3+lvl3;
-fclose(fp);
+      fclose(fp);
    }
-fp=fopen("bagalkot.txt","r");
+   fp=fopen("bagalkot.txt","r");
    if(fp==NULL)
-printf("\n REQUEST FOR OPENING FILE BAGALKOT IS DECLINED");
+     printf("\n REQUEST FOR OPENING FILE BAGALKOT IS DECLINED");
    else
    {
-fscanf(fp,"%d %d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death,&vent);
-tot_vent=tot_vent+vent;
+      fscanf(fp,"%d %d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death,&vent);
+      tot_vent=tot_vent+vent;
       tot_lvl3=tot_lvl3+lvl3;
-fclose(fp);
+      fclose(fp);
    }
-fp=fopen("belagari.txt","r");
+   fp=fopen("belagari.txt","r");
    if(fp==NULL)
-printf("\n REQUEST FOR OPENING FILE BELAGARI IS DECLINED");
+     printf("\n REQUEST FOR OPENING FILE BELAGARI IS DECLINED");
    else
    {
-fscanf(fp,"%d %d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death,&vent);
-tot_vent=tot_vent+vent;
+      fscanf(fp,"%d %d %d %d %d %d",&lvl1,&lvl2,&lvl3,&cured,&death,&vent);
+      tot_vent=tot_vent+vent;
       tot_lvl3=tot_lvl3+lvl3;
-fclose(fp);
+      fclose(fp);
    }
    if(tot_lvl3<tot_vent)
-printf("\n THERE  ARE ENOUGH VENTILATORS IN KARNATAKA");
+      printf("\n THERE  ARE ENOUGH VENTILATORS IN KARNATAKA");
    else
    {
-printf("\n ALARM!!!! KARNATAKA HAS A SCARCITY OF VENTILATORS");
-printf("\n %d VENTILATORS ARE REQUIRED IN KARNATAKA",tot_lvl3-tot_vent);
+      printf("\n ALARM!!!! KARNATAKA HAS A SCARCITY OF VENTILATORS");
+      printf("\n %d VENTILATORS ARE REQUIRED IN KARNATAKA",tot_lvl3-tot_vent);
    }
-getch();
+   getch();
 }
 
 int main()
 {
   int ch;
-ASSIGN();
-while(1)
+  ASSIGN();
+  while(1)
   {
 	clrscr();
-	printf("\n---------CORONA INFORMATION RECORD SYSTEM---------");
-	printf("----------------------------------------------------");
-	printf("MENU :\n1.STATE COMPARISON\n2.DISTRICT COMPARISON\n3.VENTILATOR STATUS\n4.DATA INPUT\n5.INFORMATION\n6.EXIT");
-	printf("------------------------------------------------------------------------------------------------------------");
+	printf("\n\t\t\tCORONA INFORMATION RECORD SYSTEM\t\t\t");
+	printf("--------------------------------------------------------------------------------");
+	printf("\t\t\t\t     MENU :     \t\t\t\t\n1.STATE COMPARISON\n2.DISTRICT COMPARISON\n3.VENTILATOR STATUS\n4.DATA INPUT\n5.INFORMATION\n6.E-PASS APPLICATION\n7.E-PASS APPLICANTS DETAILS\n8.EXIT\n");
+	printf("--------------------------------------------------------------------------------");
 	printf("\n ENTER YOUR CHOICE : ");
 	scanf("%d",&ch);
 	switch(ch)
 	{
+		case 1:
+		       STATE_BAR_CHART();
+		       break;
+		case 2:
+			DISTRICT_BAR_CHART();
+			break;
 		case 3:
 		       VENTILATOR_STATUS();
 		       break;
 		case 4:
-		READDATA();
+		       READDATA();
 		       break;
 		case 5:
 			INFORMATION();
 			break;
 		case 6:
-			printf("\n THANK YOU FOR USING CORONA INFORMATION SYSTEM.\nHOPE IT WAS USEFUL TO YOU.");
+			EPASS();
 			break;
-		default:printf("\n PLEASE ENTER A CHOICE NUMBER BETWEEN 1-6");
+		case 7:
+			E_PASS_DETAILS();
+			break;
+		case 8:
+			printf("\n \t\tTHANK YOU FOR USING CORONA INFORMATION SYSTEM. \t\t\n\t\t\t   HOPE IT WAS USEFUL TO YOU.");
+			break;
+		default:printf("\n PLEASE ENTER A CHOICE NUMBER BETWEEN 1-8");
+			getch();
+			continue;
 	}
-	if(ch==6)
+	if(ch==8)
 		break;
+
   }
-getch();
-return(0);
+  getch();
+  return(0);
 }
