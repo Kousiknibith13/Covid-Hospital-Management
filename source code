@@ -3001,7 +3001,7 @@ void INFORMATION(void)
        case 1 :
 		clrscr();
 		printf("--------------------------------------------------------------------------------");
-		printf("\n\t\t\tSTATE 3 : TAMIL NADU\n");
+		printf("\n\t\t\tSTATE 1 : TAMIL NADU\n");
 		printf("--------------------------------------------------------------------------------");
 		printf("\n1.MADURAI\n2.NAGAPATTINAM\n3.COIMBATORE\n4.ALL\n");
 		printf("--------------------------------------------------------------------------------");
@@ -3088,6 +3088,7 @@ void INFORMATION(void)
 			       getch();
 			       fclose(fp);
 			   }
+			   break;
 
 		   default: printf("\n ENTER A VALID DISTRICT ID BETWEEN 1-4");
 			    getch();
@@ -3187,6 +3188,7 @@ void INFORMATION(void)
 			       getch();
 			       fclose(fp);
 			   }
+			   break;
 
 		   default: printf("\n ENTER A VALID DISTRICT ID BETWEEN 1-4");
 			    getch();
@@ -3286,6 +3288,7 @@ void INFORMATION(void)
 			       getch();
 			       fclose(fp);
 			   }
+			   break;
 
 		   default: printf("\n ENTER A VALID DISTRICT ID BETWEEN 1-4");
 			    getch();
